@@ -1,5 +1,5 @@
-import type { CollectionConfig } from 'payload'
-import { setAccessRole } from '@/lib/setAccessRole'
+import type { CollectionConfig } from 'payload';
+import { setAccessRole } from '@/lib/setAccessRole';
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -11,8 +11,9 @@ export const Media: CollectionConfig = {
     {
       name: 'alt',
       type: 'text',
+      localized: true,
       required: true,
     },
   ],
   upload: true,
-}
+};

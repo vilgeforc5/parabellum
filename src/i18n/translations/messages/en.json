@@ -1,0 +1,31 @@
+{
+  "BasePage": {
+    "header": {
+      "nav": {
+        "main": {
+          "title": "Home"
+        },
+        "analytics": {
+          "title": "Analytics",
+          "categories": [
+            {
+              "title": "Losses",
+              "description": "Statistics on loss changes"
+            },
+            {
+              "title": "Blog",
+              "description": "Analytical articles based on processed data"
+            }
+          ]
+        },
+        "about": {
+          "title": "About Us"
+        }
+      },
+      "language-switcher": {
+        "ru": "Russian",
+        "en": "English"
+      }
+    }
+  }
+}

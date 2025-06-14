@@ -86,7 +86,7 @@ export interface Config {
   };
   globals: {};
   globalsSelect: {};
-  locale: null;
+  locale: 'ru' | 'en';
   user: User & {
     collection: 'users';
   };

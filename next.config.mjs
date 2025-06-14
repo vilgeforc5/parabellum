@@ -1,8 +1,11 @@
-import { withPayload } from '@payloadcms/next/withPayload'
+import { withPayload } from '@payloadcms/next/withPayload';
+import createNextIntlPlugin from 'next-intl/plugin';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {ppr: "incremental"}
-}
+  experimental: { ppr: 'incremental' },
+};
 
-export default withPayload(nextConfig, { devBundleServerPackages: false })
+const withNextIntl = createNextIntlPlugin();
+
+export default withNextIntl(withPayload(nextConfig, { devBundleServerPackages: false }));

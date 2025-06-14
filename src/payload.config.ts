@@ -1,16 +1,18 @@
 // storage-adapter-import-placeholder
-import { mongooseAdapter } from '@payloadcms/db-mongodb'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import path from 'path'
-import { buildConfig } from 'payload'
-import { fileURLToPath } from 'url'
-import sharp from 'sharp'
+import { mongooseAdapter } from '@payloadcms/db-mongodb';
+import { lexicalEditor } from '@payloadcms/richtext-lexical';
+import path from 'path';
+import { buildConfig } from 'payload';
+import { fileURLToPath } from 'url';
+import { ru } from '@payloadcms/translations/languages/ru';
+import sharp from 'sharp';
 
-import { Users } from './collections/Users'
-import { Media } from './collections/Media'
+import { Users } from './collections/Users';
+import { Media } from './collections/Media';
+import { en } from '@payloadcms/translations/languages/en';
 
-const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 
 export default buildConfig({
   admin: {
@@ -29,4 +31,17 @@ export default buildConfig({
     url: process.env.DATABASE_URI || '',
   }),
   sharp,
-})
+  i18n: {
+    supportedLanguages: {
+      ru,
+      en,
+    },
+    fallbackLanguage: 'ru',
+  },
+  localization: {
+    locales: ['ru', 'en'],
+    defaultLocale: 'ru',
+    fallback: true,
+    defaultLocalePublishOption: 'all',
+  },
+});

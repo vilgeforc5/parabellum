@@ -1,52 +1,40 @@
-import * as React from 'react';
-import Link from 'next/link';
-
 import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
+  NavigationMenuLocalizedLink,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
+import { getTranslations } from 'next-intl/server';
 
-export function MainNav({ className }: { className?: string }) {
+export async function MainNav({ className }: { className?: string }) {
+  const t = await getTranslations('BasePage');
+  t.raw('header.nav.analytics.categories');
+
   return (
     <NavigationMenu className={className} viewport={false}>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="/">Главная</Link>
-          </NavigationMenuLink>
+          <NavigationMenuLocalizedLink href="/">{t('header.nav.main.title')}</NavigationMenuLocalizedLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Аналитика</NavigationMenuTrigger>
+          <NavigationMenuTrigger>{t('header.nav.analytics.title')}</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-4">
-              <li>
-                <NavigationMenuLink asChild>
-                  <Link href="#">
-                    <div className="font-medium">Потери</div>
-                    <div className="text-muted-foreground">Статистика изменения потерь.</div>
-                  </Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link href="#">
-                    <div className="font-medium">Блог</div>
-                    <div className="text-muted-foreground">
-                      Аналитические статьи на основе обработанных данных.
-                    </div>
-                  </Link>
-                </NavigationMenuLink>
-              </li>
+              {t.raw('header.nav.analytics.categories').map((item: { title: string; description: string }) => (
+                <li key={item.title}>
+                  <NavigationMenuLocalizedLink href="#">
+                    <div className="font-medium">{item.title}</div>
+                    <div className="text-muted-foreground">{item.description}</div>
+                  </NavigationMenuLocalizedLink>
+                </li>
+              ))}
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="/">О нас</Link>
-          </NavigationMenuLink>
+          <NavigationMenuLocalizedLink href="/">{t('header.nav.about.title')}</NavigationMenuLocalizedLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
