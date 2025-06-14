@@ -26,6 +26,37 @@
         "ru": "Russian",
         "en": "English"
       }
+    },
+    "hero": {
+      "title": "Analytics Platform",
+      "description": "Military conflict analysis in articles, charts and data. Blog about military conflicts, strategies and equipment. In-depth reviews, data visualization, analysis at the intersection of history and statistics.",
+      "buttons": {
+        "primary": "Watch",
+        "secondary": "Learn More"
+      }
+    },
+    "loss-infographic": {
+      "title": "Confirmed AFU Losses",
+      "graphs": {
+        "count": {
+          "title" : "Daily Losses",
+          "changeFactor": "Changed by {value}%",
+          "description": "Compared to the previous period",
+          "valueLabel": "Quantity"
+        },
+        "geolocation": {
+          "title": "Geolocation"
+        }
+      },
+      "tech-section": {
+        "title": "Important",
+        "status": {
+          "total": "{value} Lost",
+          "destroyed": "{value} - destroyed",
+          "trophy": "{value} - trophies",
+          "damaged": "{value} - damaged"
+        }
+      }
     }
   }
 }

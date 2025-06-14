@@ -1,8 +1,9 @@
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-export function Socials() {
+export function Socials({ className }: { className?: string }) {
   return (
-    <div className="flex justify-center items-center gap-2">
+    <div className={cn('flex justify-center items-center gap-2', className)}>
       <Button variant="ghost" size="icon" asChild>
         <a href="https://t.me/Rubric_lossesvsu" target="_blank">
           <svg

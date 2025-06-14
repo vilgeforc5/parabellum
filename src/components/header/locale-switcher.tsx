@@ -19,7 +19,7 @@ const localeFlag = {
   ru: '🇷🇺',
 };
 
-export function LocaleSwitcher() {
+export function LocaleSwitcher({ className }: { className?: string }) {
   const t = useTranslations('BasePage');
   const router = useRouter();
   const pathname = usePathname();
@@ -28,29 +28,31 @@ export function LocaleSwitcher() {
 
   function onSelectChange(nextLocale: string) {
     startTransition(() => {
-      // @ts-expect-error
+      // @ts-expect-error params not defined
       router.replace({ pathname, params }, { locale: nextLocale });
     });
   }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="flex items-center gap-2">
-          <GlobeIcon className="size-5" />
-          <span>{locale.toUpperCase()}</span>
-          <ChevronDownIcon className="h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48">
-        {routing.locales.map((loc) => (
-          <DropdownMenuItem onClick={() => onSelectChange(loc)} key={loc}>
-            <span className="w-4">{localeFlag[loc]}</span>
-            {t(`header.language-switcher.${loc}`)}
-            {locale === loc && <CheckIcon className="h-5 w-5 ml-auto" />}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className={className}>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="flex items-center gap-2">
+            <GlobeIcon className="size-5" />
+            <span>{locale.toUpperCase()}</span>
+            <ChevronDownIcon className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-48">
+          {routing.locales.map((loc) => (
+            <DropdownMenuItem onClick={() => onSelectChange(loc)} key={loc}>
+              <span className="w-4">{localeFlag[loc]}</span>
+              {t(`header.language-switcher.${loc}`)}
+              {locale === loc && <CheckIcon className="h-5 w-5 ml-auto" />}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 }

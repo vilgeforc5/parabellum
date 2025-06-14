@@ -10,7 +10,6 @@ import { getTranslations } from 'next-intl/server';
 
 export async function MainNav({ className }: { className?: string }) {
   const t = await getTranslations('BasePage');
-  t.raw('header.nav.analytics.categories');
 
   return (
     <NavigationMenu className={className} viewport={false}>
