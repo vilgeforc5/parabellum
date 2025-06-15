@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { ReactNode } from 'react';
 import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu';
 import { cva } from 'class-variance-authority';
 import { ChevronDownIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
 
 function NavigationMenu({
   className,
@@ -120,15 +118,6 @@ function NavigationMenuLink({ className, ...props }: React.ComponentProps<typeof
   );
 }
 
-//https://github.com/amannn/next-intl/issues/1271#issuecomment-2331863819
-function NavigationMenuLocalizedLink({ href, children }: { href: string; children: ReactNode }) {
-  return (
-    <Link href={href} legacyBehavior passHref>
-      <NavigationMenuLink>{children}</NavigationMenuLink>
-    </Link>
-  );
-}
-
 function NavigationMenuIndicator({
   className,
   ...props
@@ -156,6 +145,5 @@ export {
   NavigationMenuLink,
   NavigationMenuIndicator,
   NavigationMenuViewport,
-  NavigationMenuLocalizedLink,
   navigationMenuTriggerStyle,
 };

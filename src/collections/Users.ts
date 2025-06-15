@@ -1,5 +1,5 @@
-import type { CollectionConfig } from 'payload'
-import { setAccessRole } from '@/lib/setAccessRole'
+import type { CollectionConfig } from 'payload';
+import { setAccessRole } from '@/lib/setAccessRole';
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -12,7 +12,7 @@ export const Users: CollectionConfig = {
     delete: setAccessRole('owner'),
     create: setAccessRole('owner'),
     read: setAccessRole('admin'),
-    admin: setAccessRole('admin')
+    admin: () => true,
   },
   fields: [
     {
@@ -23,8 +23,8 @@ export const Users: CollectionConfig = {
       required: true,
       access: {
         update: setAccessRole('owner'),
-        create: setAccessRole('owner')
+        create: setAccessRole('owner'),
       },
     },
   ],
-}
+};

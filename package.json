@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "3.42.0",
+    "@payloadcms/db-postgres": "^3.42.0",
     "@payloadcms/next": "3.42.0",
     "@payloadcms/payload-cloud": "3.42.0",
     "@payloadcms/richtext-lexical": "3.42.0",
@@ -33,11 +34,13 @@
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "graphql": "^16.8.1",
+    "i18n-iso-countries": "^7.14.0",
     "lucide-react": "^0.515.0",
     "next": "15.4.0-canary.81",
     "payload": "3.42.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-error-boundary": "^6.0.0",
     "recharts": "^2.15.3",
     "sharp": "0.32.6",
     "tailwind-merge": "^3.3.1",
@@ -69,5 +72,6 @@
   },
   "overrides": {
     "react-is": "^19.1.0"
-  }
+  },
+  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac"
 }

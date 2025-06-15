@@ -37,7 +37,7 @@ export function LossCountGraph({ data, trend }: EverydayLossGraphProps) {
           </BarChart>
         </ChartContainer>
       </CardContent>
-      {trend && (
+      {Boolean(trend) && (
         <CardFooter className="flex-col items-start gap-2 text-sm">
           <div
             className={cn(
@@ -50,11 +50,9 @@ export function LossCountGraph({ data, trend }: EverydayLossGraphProps) {
             ) : (
               <TrendingDown className="h-4 w-4 color-red-500" />
             )}
-            <span>Изменились на {trendValue}%</span>
+            <span>Изменились на {trendValue.toFixed(2)}%</span>
           </div>
-          <div className="text-muted-foreground leading-none">
-            По сравнению с предыдущим периодом
-          </div>
+          <div className="text-muted-foreground leading-none">По сравнению с предыдущим периодом</div>
         </CardFooter>
       )}
     </Card>

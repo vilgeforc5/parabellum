@@ -6,12 +6,12 @@ export const Media: CollectionConfig = {
   access: {
     update: setAccessRole('admin'),
     delete: setAccessRole('admin'),
+    read: () => true,
   },
   fields: [
     {
       name: 'alt',
       type: 'text',
-      localized: true,
       required: true,
     },
   ],

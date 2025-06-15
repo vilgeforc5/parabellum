@@ -1,5 +1,5 @@
 // storage-adapter-import-placeholder
-import { mongooseAdapter } from '@payloadcms/db-mongodb';
+import { postgresAdapter } from '@payloadcms/db-postgres';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import path from 'path';
 import { buildConfig } from 'payload';
@@ -9,7 +9,12 @@ import sharp from 'sharp';
 
 import { Users } from './collections/Users';
 import { Media } from './collections/Media';
+import { MachineCategory } from '@/collections/MachineCategory';
 import { en } from '@payloadcms/translations/languages/en';
+import { Machine } from '@/collections/Machine';
+import { Loss } from '@/collections/Loss';
+import { Location } from '@/collections/Location';
+import { Region } from '@/collections/Region';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -21,14 +26,14 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, MachineCategory, Machine, Loss, Location, Region],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: mongooseAdapter({
-    url: process.env.DATABASE_URI || '',
+  db: postgresAdapter({
+    pool: { connectionString: process.env.DATABASE_URI || '' },
   }),
   sharp,
   i18n: {
@@ -37,11 +42,5 @@ export default buildConfig({
       en,
     },
     fallbackLanguage: 'ru',
-  },
-  localization: {
-    locales: ['ru', 'en'],
-    defaultLocale: 'ru',
-    fallback: true,
-    defaultLocalePublishOption: 'all',
   },
 });

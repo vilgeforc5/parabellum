@@ -1,68 +1,12 @@
-import React, { ComponentProps } from 'react';
-import { LossCountGraph } from '@/components/losses-infographic/loss-count-graph';
-import { LocationGraph } from '@/components/losses-infographic/location-graph';
-import { TechItem } from '@/components/losses-infographic/tech-item';
-
-const tech: Array<ComponentProps<typeof TechItem>> = [
-  {
-    trophy: 10,
-    destroyed: 50,
-    total: 60,
-    name: 'ББМ',
-    damaged: 20,
-  },
-  {
-    trophy: 10,
-    destroyed: 50,
-    total: 60,
-    name: 'ББМ',
-    damaged: 20,
-  },
-  {
-    trophy: 10,
-    destroyed: 50,
-    total: 60,
-    name: 'ББМ',
-    damaged: 20,
-  },
-  {
-    trophy: 10,
-    destroyed: 50,
-    total: 60,
-    name: 'ББМ',
-    damaged: 20,
-  },
-  {
-    trophy: 10,
-    destroyed: 50,
-    total: 60,
-    name: 'ББМ',
-    damaged: 20,
-  },
-  {
-    trophy: 10,
-    destroyed: 50,
-    total: 60,
-    name: 'ББМ',
-    damaged: 20,
-  },
-];
-
-const lossData: ComponentProps<typeof LossCountGraph> = {
-  data: [
-    { month: '01-10', value: 186 },
-    { month: '', value: 305 },
-    { month: '', value: 237 },
-    { month: '', value: 73 },
-    { month: '', value: 209 },
-    { month: '01-15', value: 214 },
-    { month: '', value: 214 },
-    { month: '', value: 200 },
-    { month: '', value: 250 },
-    { month: '01-20', value: 214 },
-  ],
-  trend: -5,
-};
+import React, { ComponentProps, Suspense } from 'react';
+import { LocationGraph } from '@/components/losses-infographic/location/location-graph';
+import { SectionWrapper } from '@/components/ui/section-wrapper';
+import { LossCount } from '@/components/losses-infographic/loss-count/loss-count';
+import { Skeleton } from '@/components/ui/skeleton';
+import { TechCards } from '@/components/losses-infographic/tech-items/tech-cards';
+import { ErrorBoundary } from 'react-error-boundary';
+import { Location } from '@/components/losses-infographic/location/location';
+import { getTimePeriod } from '@/components/losses-infographic/getTimePeriod';
 
 const locationData: ComponentProps<typeof LocationGraph> = {
   data: [
@@ -89,32 +33,29 @@ const locationData: ComponentProps<typeof LocationGraph> = {
   ],
 };
 
-const timePeriod = '10.03.25 - 16.03.25';
-
 export async function LossesInfographic() {
   return (
-    <div className="max-lg:px-3">
-      <div className="w-full text-white p-6 lg:p-8 rounded-lg bg-card">
+    <ErrorBoundary fallback={null}>
+      <SectionWrapper>
         <div className="mb-8">
-          <h2 className="text-4xl font-bold mb-2">Подтвержденные потери ВСУ</h2>
+          <h2 className="text-3xl font-bold mb-2">Подтвержденные потери ВСУ</h2>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-primary"></div>
-            <span className="text-primary font-semibold">{timePeriod}</span>
+            <span className="text-primary font-semibold">{getTimePeriod().timePeriod}</span>
           </div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <LossCountGraph {...lossData} />
-          <LocationGraph {...locationData} />
-          <div className="mt-8 col-span-full">
-            <h2 className="text-2xl font-bold mb-4">Важное</h2>
-            <div className="flex flex-wrap gap-8">
-              {tech.map((item) => (
-                <TechItem {...item} key={item.name} />
-              ))}
-            </div>
-          </div>
+          <Suspense fallback={<Skeleton className="min-h-48 md:min-h-[500px] h-full w-full rounded-md" />}>
+            <LossCount />
+          </Suspense>
+          <Suspense fallback={<Skeleton className="min-h-48 md:min-h-[500px] h-full w-full rounded-md" />}>
+            <Location />
+          </Suspense>
+          <Suspense fallback={<Skeleton className="min-h-48 md:min-h-[400px] h-full w-full rounded-md" />}>
+            <TechCards />
+          </Suspense>
         </div>
-      </div>
-    </div>
+      </SectionWrapper>
+    </ErrorBoundary>
   );
 }

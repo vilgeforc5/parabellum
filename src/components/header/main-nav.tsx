@@ -7,18 +7,20 @@ import {
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
 
-export async function MainNav({ className }: { className?: string }) {
-  const analyticsCategories = [
-    {
-      title: 'Потери',
-      description: 'Статистика изменения потерь',
-    },
-    {
-      title: 'Блог',
-      description: 'Аналитические статьи на основе обработанных данных',
-    },
-  ];
+export const analyticsCategories = [
+  {
+    title: 'Потери',
+    description: 'Статистика изменения потерь',
+    href: '/',
+  },
+  {
+    title: 'Блог',
+    description: 'Аналитические статьи на основе обработанных данных',
+    href: '/',
+  },
+];
 
+export async function MainNav({ className }: { className?: string }) {
   return (
     <NavigationMenu className={className} viewport={false}>
       <NavigationMenuList>
@@ -31,7 +33,7 @@ export async function MainNav({ className }: { className?: string }) {
             <ul className="grid w-[400px] gap-4">
               {analyticsCategories.map((item) => (
                 <li key={item.title}>
-                  <NavigationMenuLink href="#">
+                  <NavigationMenuLink href={item.href}>
                     <div className="font-medium">{item.title}</div>
                     <div className="text-muted-foreground">{item.description}</div>
                   </NavigationMenuLink>
