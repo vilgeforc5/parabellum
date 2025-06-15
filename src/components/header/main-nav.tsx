@@ -2,38 +2,46 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
+  NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuLocalizedLink,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import { getTranslations } from 'next-intl/server';
 
 export async function MainNav({ className }: { className?: string }) {
-  const t = await getTranslations('BasePage');
+  const analyticsCategories = [
+    {
+      title: 'Потери',
+      description: 'Статистика изменения потерь',
+    },
+    {
+      title: 'Блог',
+      description: 'Аналитические статьи на основе обработанных данных',
+    },
+  ];
 
   return (
     <NavigationMenu className={className} viewport={false}>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuLocalizedLink href="/">{t('header.nav.main.title')}</NavigationMenuLocalizedLink>
+          <NavigationMenuLink href="/">Главная</NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>{t('header.nav.analytics.title')}</NavigationMenuTrigger>
+          <NavigationMenuTrigger>Аналитика</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-4">
-              {t.raw('header.nav.analytics.categories').map((item: { title: string; description: string }) => (
+              {analyticsCategories.map((item) => (
                 <li key={item.title}>
-                  <NavigationMenuLocalizedLink href="#">
+                  <NavigationMenuLink href="#">
                     <div className="font-medium">{item.title}</div>
                     <div className="text-muted-foreground">{item.description}</div>
-                  </NavigationMenuLocalizedLink>
+                  </NavigationMenuLink>
                 </li>
               ))}
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLocalizedLink href="/">{t('header.nav.about.title')}</NavigationMenuLocalizedLink>
+          <NavigationMenuLink href="/">О нас</NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

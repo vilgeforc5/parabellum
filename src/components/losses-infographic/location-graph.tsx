@@ -10,14 +10,12 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { useTranslations } from 'next-intl';
 
 interface ILocationGraphProps {
   data: Array<{ region: string; value: number; label: string }>;
 }
 
 export function LocationGraph({ data }: ILocationGraphProps) {
-  const t = useTranslations('BasePage');
   const dataFormatted = data.map((item, index) => ({ ...item, fill: `var(--chart-${index + 1})` }));
   const dataConfig = data.reduce(
     (acc, item) => ({
@@ -32,7 +30,7 @@ export function LocationGraph({ data }: ILocationGraphProps) {
   return (
     <Card>
       <CardHeader className="items-center pb-0">
-        <CardTitle className="text-xl">{t('loss-infographic.graphs.geolocation.title')}</CardTitle>
+        <CardTitle className="text-xl">Геолокация</CardTitle>
       </CardHeader>
       <CardContent className="flex-1 pb-0 flex">
         <ChartContainer config={dataConfig} className="max-w-full mx-auto min-h-80">

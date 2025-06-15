@@ -5,7 +5,7 @@ import { cva } from 'class-variance-authority';
 import { ChevronDownIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import { Link } from '@/i18n/navigation';
+import Link from 'next/link';
 
 function NavigationMenu({
   className,

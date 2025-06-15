@@ -2,7 +2,6 @@ import React, { ComponentProps } from 'react';
 import { LossCountGraph } from '@/components/losses-infographic/loss-count-graph';
 import { LocationGraph } from '@/components/losses-infographic/location-graph';
 import { TechItem } from '@/components/losses-infographic/tech-item';
-import { getTranslations } from 'next-intl/server';
 
 const tech: Array<ComponentProps<typeof TechItem>> = [
   {
@@ -93,13 +92,11 @@ const locationData: ComponentProps<typeof LocationGraph> = {
 const timePeriod = '10.03.25 - 16.03.25';
 
 export async function LossesInfographic() {
-  const t = await getTranslations('BasePage');
-
   return (
     <div className="max-lg:px-3">
       <div className="w-full text-white p-6 lg:p-8 rounded-lg bg-card">
         <div className="mb-8">
-          <h2 className="text-4xl font-bold mb-2">{t('loss-infographic.title')}</h2>
+          <h2 className="text-4xl font-bold mb-2">Подтвержденные потери ВСУ</h2>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-primary"></div>
             <span className="text-primary font-semibold">{timePeriod}</span>
@@ -109,7 +106,7 @@ export async function LossesInfographic() {
           <LossCountGraph {...lossData} />
           <LocationGraph {...locationData} />
           <div className="mt-8 col-span-full">
-            <h2 className="text-2xl font-bold mb-4">{t('loss-infographic.tech-section.title')}</h2>
+            <h2 className="text-2xl font-bold mb-4">Важное</h2>
             <div className="flex flex-wrap gap-8">
               {tech.map((item) => (
                 <TechItem {...item} key={item.name} />

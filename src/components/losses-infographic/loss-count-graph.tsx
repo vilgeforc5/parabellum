@@ -5,7 +5,6 @@ import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { cn } from '@/lib/utils';
-import { useTranslations } from 'next-intl';
 
 interface EverydayLossGraphProps {
   data: Array<{ month: string; value: number }>;
@@ -13,20 +12,19 @@ interface EverydayLossGraphProps {
 }
 
 export function LossCountGraph({ data, trend }: EverydayLossGraphProps) {
-  const t = useTranslations('BasePage');
   const isTrendingUp = trend > 0;
   const trendValue = Math.abs(trend);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-xl">{t('loss-infographic.graphs.count.title')}</CardTitle>
+        <CardTitle className="text-xl">Ежедневные потери</CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer
           config={{
             value: {
-              label: t('loss-infographic.graphs.count.valueLabel'),
+              label: 'Кол-во',
               color: 'var(--primary)',
             },
           }}
@@ -52,10 +50,10 @@ export function LossCountGraph({ data, trend }: EverydayLossGraphProps) {
             ) : (
               <TrendingDown className="h-4 w-4 color-red-500" />
             )}
-            <span>{t('loss-infographic.graphs.count.changeFactor', { value: trendValue })}</span>
+            <span>Изменились на {trendValue}%</span>
           </div>
           <div className="text-muted-foreground leading-none">
-            {t('loss-infographic.graphs.count.description')}
+            По сравнению с предыдущим периодом
           </div>
         </CardFooter>
       )}
