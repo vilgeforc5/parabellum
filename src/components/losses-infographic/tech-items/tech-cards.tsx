@@ -4,6 +4,7 @@ import payloadConfig from '@payload-config';
 import React from 'react';
 import { TechCard } from './tech-card';
 import { getTimePeriod } from '@/components/losses-infographic/getTimePeriod';
+import { revalidateTimeout } from '@/cache.config';
 
 export interface TechCard {
   name: string;
@@ -97,7 +98,7 @@ export const getCards = unstable_cache(
     return cards;
   },
   ['machineCategory'],
-  { revalidate: 3600 },
+  { revalidate: revalidateTimeout },
 );
 
 export async function TechCards() {

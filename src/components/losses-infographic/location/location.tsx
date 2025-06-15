@@ -1,34 +1,9 @@
 import { LocationGraph } from '@/components/losses-infographic/location/location-graph';
-import { ComponentProps } from 'react';
 import { unstable_cache } from 'next/cache';
 import { getTimePeriod } from '../getTimePeriod';
 import payloadConfig from '@payload-config';
 import { getPayload } from 'payload';
-
-const locationData: ComponentProps<typeof LocationGraph> = {
-  data: [
-    {
-      region: 'DPR',
-      value: 250,
-      label: 'ДНР',
-    },
-    {
-      region: 'LPR',
-      value: 500,
-      label: 'ЛНР',
-    },
-    {
-      region: 'KHR',
-      value: 750,
-      label: 'Херсонская область',
-    },
-    {
-      region: 'ZAP',
-      value: 250,
-      label: 'Запорожская область',
-    },
-  ],
-};
+import { revalidateTimeout } from '@/cache.config';
 
 export const getLocationData = unstable_cache(
   async () => {
@@ -84,7 +59,7 @@ export const getLocationData = unstable_cache(
     }));
   },
   ['location'],
-  { revalidate: 3600 },
+  { revalidate: revalidateTimeout },
 );
 
 export async function Location() {

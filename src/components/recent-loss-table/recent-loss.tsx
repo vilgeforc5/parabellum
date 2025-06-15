@@ -2,6 +2,7 @@ import { RecentLossTable } from '@/components/recent-loss-table/recent-loss-tabl
 import payloadConfig from '@payload-config';
 import { getPayload } from 'payload';
 import { unstable_cache } from 'next/cache';
+import { revalidateTimeout } from '@/cache.config';
 
 const getRecentLoss = unstable_cache(
   async () => {
@@ -37,7 +38,7 @@ const getRecentLoss = unstable_cache(
   },
   ['recent-loss'],
   {
-    revalidate: 3600,
+    revalidate: revalidateTimeout,
     tags: ['loss'],
   },
 );

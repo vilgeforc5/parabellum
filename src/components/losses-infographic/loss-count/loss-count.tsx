@@ -4,6 +4,7 @@ import { unstable_cache } from 'next/cache';
 import payloadConfig from '@payload-config';
 import { getPayload } from 'payload';
 import { getTimePeriod } from '@/components/losses-infographic/getTimePeriod';
+import { revalidateTimeout } from '@/cache.config';
 
 const getData = unstable_cache(
   async () => {
@@ -62,7 +63,7 @@ const getData = unstable_cache(
     };
   },
   ['loss-count'],
-  { revalidate: 3600 },
+  { revalidate: revalidateTimeout },
 );
 
 export async function LossCount() {
