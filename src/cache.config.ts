@@ -1,1 +1,1 @@
-export const revalidateTimeout = 1;
+export const revalidateTimeout = 30;
