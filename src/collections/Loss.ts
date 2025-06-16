@@ -8,16 +8,19 @@ export const Loss: CollectionConfig = {
       name: 'machine',
       relationTo: 'machine',
       type: 'relationship',
+      required: true,
     },
     {
       name: 'datePublish',
       type: 'date',
       required: true,
+      label: 'Дата публикации в телеграме рубрики',
     },
     {
       name: 'dateEvent',
       type: 'date',
       required: false,
+      label: 'Дата потери',
     },
     {
       name: 'location',
@@ -38,8 +41,9 @@ export const Loss: CollectionConfig = {
     },
     {
       name: 'links',
+      label: 'Ссылки на источники',
       type: 'array',
-      fields: [{ type: 'text', name: 'href' }],
+      fields: [{ type: 'text', name: 'href', required: true }],
     },
   ],
 };

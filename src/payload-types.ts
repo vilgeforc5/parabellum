@@ -147,7 +147,7 @@ export interface User {
  */
 export interface Media {
   id: number;
-  alt: string;
+  alt?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -179,7 +179,7 @@ export interface Machine {
   id: number;
   name: string;
   category?: (number | null) | MachineCategory;
-  country:
+  country: (
     | 'AF'
     | 'AL'
     | 'DZ'
@@ -429,7 +429,9 @@ export interface Machine {
     | 'RS'
     | 'SX'
     | 'SS'
-    | 'XK';
+    | 'XK'
+    | 'SU'
+  )[];
   updatedAt: string;
   createdAt: string;
 }
@@ -439,7 +441,7 @@ export interface Machine {
  */
 export interface Loss {
   id: number;
-  machine?: (number | null) | Machine;
+  machine: number | Machine;
   datePublish: string;
   dateEvent?: string | null;
   location?: (number | null) | Location;
@@ -447,7 +449,7 @@ export interface Loss {
   images?: (number | Media)[] | null;
   links?:
     | {
-        href?: string | null;
+        href: string;
         id?: string | null;
       }[]
     | null;

@@ -35,7 +35,7 @@ const getData = async () => {
 
   const dateGrouped = new Map<string, number>();
   loss.forEach((doc) => {
-    const key = new Date(doc.createdAt).toLocaleDateString();
+    const key = new Date(doc.createdAt).toLocaleDateString('ru-RU');
 
     if (dateGrouped.has(key)) {
       dateGrouped.set(key, dateGrouped.get(key)! + 1);
@@ -49,7 +49,7 @@ const getData = async () => {
   for (let i = days; i >= 0; i--) {
     const { ago: daysAgo } = getTimePeriod(i);
 
-    const key = daysAgo.toLocaleDateString();
+    const key = daysAgo.toLocaleDateString('ru-RU');
 
     data.push({ month: key, value: dateGrouped.get(key) || 0 });
   }

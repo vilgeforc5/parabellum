@@ -21,10 +21,13 @@ export const Machine: CollectionConfig = {
       name: 'country',
       type: 'select',
       required: true,
-      options: Object.keys(countries.getAlpha2Codes()).map((value) => ({
-        value,
-        label: countries.getName(value, 'ru') || value,
-      })),
+      options: Object.keys(countries.getAlpha2Codes())
+        .map((value) => ({
+          value,
+          label: countries.getName(value, 'ru') || value,
+        }))
+        .concat({ value: 'SU', label: 'Советский Союз' }),
+      hasMany: true,
     },
   ],
 };

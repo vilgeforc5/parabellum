@@ -48,9 +48,7 @@ export function RecentLossTable({ data }: RecentLossTableProps) {
 
             return (
               <TableRow className="cursor-pointer" key={item.id}>
-                <TableCell className="font-medium text-muted-foreground">
-                  {item.id.toString().substring(0, 3)}...
-                </TableCell>
+                <TableCell className="font-medium text-muted-foreground">{item.id}</TableCell>
                 <TableCell className="w-40">
                   <Images images={item.images} />
                 </TableCell>
