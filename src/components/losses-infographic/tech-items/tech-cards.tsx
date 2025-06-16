@@ -29,7 +29,6 @@ export const getCards = unstable_cache(
 
     for (const category of categories) {
       const { id, name, icon } = category;
-
       const { docs: machines } = await payload.find({
         collection: 'machine',
         where: {

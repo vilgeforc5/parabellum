@@ -15,6 +15,7 @@ import { Machine } from '@/collections/Machine';
 import { Loss } from '@/collections/Loss';
 import { Location } from '@/collections/Location';
 import { Region } from '@/collections/Region';
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -43,4 +44,13 @@ export default buildConfig({
     },
     fallbackLanguage: 'ru',
   },
+  plugins: [
+    vercelBlobStorage({
+      enabled: true,
+      collections: {
+        media: true,
+      },
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    }),
+  ],
 });
