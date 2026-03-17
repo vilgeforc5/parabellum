@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tags",
+  "info": {
+    "singularName": "tag",
+    "pluralName": "tags",
+    "displayName": "Tag",
+    "description": "Freeform labels for losses (e.g. 'mine', 'drone-strike', 'night-op')"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "losses": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::equipment-loss.equipment-loss",
+      "mappedBy": "tags"
+    }
+  }
+}

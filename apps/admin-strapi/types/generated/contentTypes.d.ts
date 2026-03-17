@@ -430,6 +430,326 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiConflictConflict extends Struct.CollectionTypeSchema {
+  collectionName: 'conflicts';
+  info: {
+    description: 'An armed conflict or war';
+    displayName: 'Conflict';
+    pluralName: 'conflicts';
+    singularName: 'conflict';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    countries: Schema.Attribute.Relation<'manyToMany', 'api::country.country'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    endDate: Schema.Attribute.Date;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::conflict.conflict'
+    > &
+      Schema.Attribute.Private;
+    losses: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::equipment-loss.equipment-loss'
+    >;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    startDate: Schema.Attribute.Date & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCountryCountry extends Struct.CollectionTypeSchema {
+  collectionName: 'countries';
+  info: {
+    description: 'Nation state involved in a conflict';
+    displayName: 'Country';
+    pluralName: 'countries';
+    singularName: 'country';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    code: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 3;
+        minLength: 2;
+      }>;
+    conflicts: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::conflict.conflict'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    equipmentLosses: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::equipment-loss.equipment-loss'
+    >;
+    flag: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::country.country'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    side: Schema.Attribute.Enumeration<['aggressor', 'defender', 'other']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'other'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiEquipmentCategoryEquipmentCategory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'equipment_categories';
+  info: {
+    description: 'Hierarchical category for military equipment (e.g. Armour > Tanks)';
+    displayName: 'Equipment Category';
+    pluralName: 'equipment-categories';
+    singularName: 'equipment-category';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    children: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::equipment-category.equipment-category'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    equipmentTypes: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::equipment-type.equipment-type'
+    >;
+    icon: Schema.Attribute.Media<'images' | 'files'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::equipment-category.equipment-category'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    parent: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::equipment-category.equipment-category'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    sortOrder: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiEquipmentLossEquipmentLoss
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'equipment_losses';
+  info: {
+    description: 'A documented instance of military equipment being lost';
+    displayName: 'Equipment Loss';
+    pluralName: 'equipment-losses';
+    singularName: 'equipment-loss';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    conflict: Schema.Attribute.Relation<'manyToOne', 'api::conflict.conflict'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.Date & Schema.Attribute.Required;
+    description: Schema.Attribute.RichText;
+    equipmentType: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::equipment-type.equipment-type'
+    >;
+    evidence: Schema.Attribute.Media<'images' | 'videos' | 'files', true>;
+    latitude: Schema.Attribute.Decimal;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::equipment-loss.equipment-loss'
+    > &
+      Schema.Attribute.Private;
+    locationName: Schema.Attribute.String;
+    longitude: Schema.Attribute.Decimal;
+    operator: Schema.Attribute.Relation<'manyToOne', 'api::country.country'>;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    sourceUrl: Schema.Attribute.String;
+    status: Schema.Attribute.Enumeration<
+      ['destroyed', 'damaged', 'captured', 'abandoned']
+    > &
+      Schema.Attribute.Required;
+    tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    verificationStatus: Schema.Attribute.Enumeration<
+      ['pending', 'confirmed', 'disputed', 'rejected']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'pending'>;
+    verifiedAt: Schema.Attribute.DateTime;
+  };
+}
+
+export interface ApiEquipmentTypeEquipmentType
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'equipment_types';
+  info: {
+    description: 'A specific model of military equipment (e.g. T-72B3, BMP-2)';
+    displayName: 'Equipment Type';
+    pluralName: 'equipment-types';
+    singularName: 'equipment-type';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    category: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::equipment-category.equipment-category'
+    >;
+    country: Schema.Attribute.Relation<'manyToOne', 'api::country.country'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.RichText;
+    designation: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::equipment-type.equipment-type'
+    > &
+      Schema.Attribute.Private;
+    losses: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::equipment-loss.equipment-loss'
+    >;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    specifications: Schema.Attribute.JSON;
+    thumbnail: Schema.Attribute.Media<'images'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTagTag extends Struct.CollectionTypeSchema {
+  collectionName: 'tags';
+  info: {
+    description: "Freeform labels for losses (e.g. 'mine', 'drone-strike', 'night-op')";
+    displayName: 'Tag';
+    pluralName: 'tags';
+    singularName: 'tag';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'> &
+      Schema.Attribute.Private;
+    losses: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::equipment-loss.equipment-loss'
+    >;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiUserReportUserReport extends Struct.CollectionTypeSchema {
+  collectionName: 'user_reports';
+  info: {
+    description: 'Community-submitted loss sighting, pending review';
+    displayName: 'User Report';
+    pluralName: 'user-reports';
+    singularName: 'user-report';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.Date;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    equipmentCategory: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::equipment-category.equipment-category'
+    >;
+    evidence: Schema.Attribute.Media<'images' | 'videos' | 'files', true>;
+    latitude: Schema.Attribute.Decimal;
+    linkedLoss: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::equipment-loss.equipment-loss'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::user-report.user-report'
+    > &
+      Schema.Attribute.Private;
+    locationName: Schema.Attribute.String;
+    longitude: Schema.Attribute.Decimal;
+    publishedAt: Schema.Attribute.DateTime;
+    reviewStatus: Schema.Attribute.Enumeration<
+      ['new', 'under_review', 'accepted', 'rejected']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'new'>;
+    sourceUrl: Schema.Attribute.String;
+    status: Schema.Attribute.Enumeration<
+      ['destroyed', 'damaged', 'captured', 'abandoned', 'unknown']
+    > &
+      Schema.Attribute.DefaultTo<'unknown'>;
+    submitterEmail: Schema.Attribute.Email & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -941,6 +1261,13 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::conflict.conflict': ApiConflictConflict;
+      'api::country.country': ApiCountryCountry;
+      'api::equipment-category.equipment-category': ApiEquipmentCategoryEquipmentCategory;
+      'api::equipment-loss.equipment-loss': ApiEquipmentLossEquipmentLoss;
+      'api::equipment-type.equipment-type': ApiEquipmentTypeEquipmentType;
+      'api::tag.tag': ApiTagTag;
+      'api::user-report.user-report': ApiUserReportUserReport;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

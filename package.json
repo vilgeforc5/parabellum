@@ -4,18 +4,38 @@
   "license": "MIT",
   "scripts": {
     "docker:up": "docker compose -f docker-compose.dev.yaml up -d",
-    "dev": "pnpm docker:up && pnpm nx dev admin-strapi"
+    "dev": "pnpm nx run-many --target=dev --projects=admin-strapi,web --parallel"
   },
   "private": true,
-  "dependencies": {},
   "devDependencies": {
     "@nx/js": "22.5.4",
+    "@nx/next": "^22.5.4",
+    "@nx/react": "^22.5.4",
     "@swc-node/register": "~1.11.1",
+    "@swc/cli": "~0.8.0",
     "@swc/core": "~1.15.5",
     "@swc/helpers": "~0.5.18",
+    "@types/node": "20.19.9",
+    "@types/react": "18.3.1",
+    "@types/react-dom": "18.3.0",
     "nx": "22.5.4",
     "prettier": "~3.6.2",
     "tslib": "^2.3.0",
     "typescript": "~5.9.2"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.4",
+    "@tailwindcss/postcss": "^4.2.1",
+    "autoprefixer": "^10.4.27",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.577.0",
+    "next": "~16.0.1",
+    "postcss": "^8.5.8",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "recharts": "^3.8.0",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss": "^4.2.1"
   }
 }

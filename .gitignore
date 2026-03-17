@@ -46,3 +46,7 @@ Thumbs.db
 .nx/workspace-data
 
 .nx/polygraph
+
+# Next.js
+.next
+out
