@@ -2,13 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import type { SVGProps } from 'react';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from '@/i18n/navigation';
 
 const FRIENDS_URL = 'https://lostarmour.info/help';
@@ -100,7 +94,7 @@ export default async function AboutUsPage() {
       </div>
 
       <div className="grid gap-6">
-        <Card className="border-primary/20 bg-card/60">
+        <Card className="bg-card/60">
           <CardHeader className="grid grid-cols-[2.75rem_minmax(0,1fr)] items-center gap-4 space-y-0">
             <div className="flex size-11 items-center justify-center self-center rounded-2xl bg-chart-1/10 text-chart-1 ring-1 ring-chart-1/15">
               <InsightIcon className="size-5" />
@@ -145,7 +139,7 @@ export default async function AboutUsPage() {
             </div>
             <div className="min-w-0 space-y-1.5">
               <CardTitle>{t('donationsTitle')}</CardTitle>
-              <CardDescription>{t('linksTitle')}</CardDescription>
+              {/*<CardDescription>{t('linksTitle')}</CardDescription>*/}
             </div>
           </CardHeader>
           <CardContent className="space-y-6">

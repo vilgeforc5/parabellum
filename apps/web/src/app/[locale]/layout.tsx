@@ -9,8 +9,7 @@ import {
 } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import NextTopLoader from 'nextjs-toploader';
-import { Footer } from '@/components/footer';
-import { Navbar } from '@/components/navbar';
+import { AppShell } from '@/components/app-shell';
 import { ThemeProvider } from '@/components/theme-provider';
 import { routing } from '@/i18n/routing';
 import { cn } from '@/lib/utils';
@@ -77,11 +76,7 @@ export default async function LocaleLayout({
         >
           <div className="relative z-10 flex min-h-screen flex-col">
             <NextIntlClientProvider messages={messages}>
-              <Navbar />
-              <main className="container mx-auto flex-1 px-4 py-6">
-                {children}
-              </main>
-              <Footer />
+              <AppShell>{children}</AppShell>
             </NextIntlClientProvider>
           </div>
         </ThemeProvider>

@@ -150,5 +150,10 @@
     "linksTitle": "Useful links",
     "analyticsLink": "Open analytics",
     "friendsLink": "Visit our friends"
+  },
+  "NotFoundPage": {
+    "title": "Sorry, you are here by mistake.",
+    "description": "This page is either under development, or an unknown error happened. We know about that and are already investigating the issue.",
+    "homeLink": "Back to home"
   }
 }

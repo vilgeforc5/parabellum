@@ -1,10 +1,12 @@
-import { getTranslations } from 'next-intl/server';
+'use client';
+
+import { useTranslations } from 'next-intl';
 
 import { Link } from '@/i18n/navigation';
 import { LogoIcon } from '@/components/ui/logo-icon';
 
-export async function Footer() {
-  const t = await getTranslations('Navigation');
+export function Footer() {
+  const t = useTranslations('Navigation');
   const year = new Date().getFullYear();
 
   return (
