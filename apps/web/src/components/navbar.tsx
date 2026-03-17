@@ -31,7 +31,7 @@ export function Navbar() {
       .sort((a, b) => b.href.length - a.href.length)[0]?.href ?? '/';
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-border backdrop-blur-md">
       <div className="container mx-auto flex h-14 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 font-bold text-lg">
           <LogoIcon className="h-5 w-5" />

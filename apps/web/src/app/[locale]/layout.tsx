@@ -8,6 +8,7 @@ import {
   setRequestLocale,
 } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import NextTopLoader from 'nextjs-toploader';
 import { Footer } from '@/components/footer';
 import { Navbar } from '@/components/navbar';
 import { ThemeProvider } from '@/components/theme-provider';
@@ -59,6 +60,11 @@ export default async function LocaleLayout({
       <body
         className={cn('bg-background font-sans antialiased', inter.variable)}
       >
+        <NextTopLoader
+          color="var(--chart-1)"
+          showSpinner={false}
+          shadow="0 0 10px var(--chart-1), 0 0 5px var(--chart-1)"
+        />
         <div aria-hidden className="site-backdrop">
           <div className="site-grid" />
           <div className="site-vignette" />

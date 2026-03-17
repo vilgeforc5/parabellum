@@ -12,10 +12,9 @@ const mockPosts = [
   {
     key: 'post1',
     tag: 'analysis',
-    tagColor: 'text-chart-1 border-chart-1/30 bg-chart-1/10',
+    tagColor: 'text-chart-1 border-primary/30 bg-chart-1/10',
     readTime: '12',
     date: '2026-03-14',
-    accentBorder: 'hover:border-chart-1/40',
   },
   {
     key: 'post2',
@@ -23,7 +22,6 @@ const mockPosts = [
     tagColor: 'text-chart-2 border-chart-2/30 bg-chart-2/10',
     readTime: '8',
     date: '2026-03-10',
-    accentBorder: 'hover:border-chart-2/40',
   },
   {
     key: 'post3',
@@ -31,7 +29,6 @@ const mockPosts = [
     tagColor: 'text-chart-3 border-chart-3/30 bg-chart-3/10',
     readTime: '15',
     date: '2026-03-06',
-    accentBorder: 'hover:border-chart-3/40',
   },
 ];
 
@@ -80,12 +77,11 @@ export function BlogPreview() {
         viewport={{ once: true }}
         className="grid gap-6 md:grid-cols-3"
       >
-        {mockPosts.map(({ key, tag, tagColor, readTime, date, accentBorder }) => (
+        {mockPosts.map(({ key, tag, tagColor, readTime, date }) => (
           <motion.div key={key} variants={itemVariants}>
             <Card
-              className={`group border-border/50 bg-card/50 backdrop-blur-sm transition-all ${accentBorder} h-full flex flex-col`}
+              className={`group border-border/50 bg-card/50 backdrop-blur-sm transition-all hover:border-primary h-full flex flex-col`}
             >
-              {/* Image placeholder with gradient */}
               <div className="relative h-48 overflow-hidden rounded-t-xl bg-gradient-to-br from-secondary to-background">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-16 h-16 rounded-full bg-muted/50 flex items-center justify-center">
@@ -103,7 +99,7 @@ export function BlogPreview() {
               </div>
 
               <CardContent className="p-5 flex flex-col flex-1">
-                <h3 className="font-semibold text-lg leading-snug group-hover:text-chart-1 transition-colors">
+                <h3 className="font-semibold text-lg leading-snug transition-colors">
                   {t(`${key}.title`)}
                 </h3>
                 <p className="text-sm text-muted-foreground mt-2 leading-relaxed flex-1">

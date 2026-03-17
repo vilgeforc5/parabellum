@@ -7,17 +7,17 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselPrevious,
   CarouselNext,
+  CarouselPrevious,
 } from '@/components/ui/carousel';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   BarChart3,
+  Layers,
   Map,
   Search,
-  TrendingUp,
   Shield,
-  Layers,
+  TrendingUp,
 } from 'lucide-react';
 
 const features = [
@@ -26,7 +26,7 @@ const features = [
     icon: TrendingUp,
     color: 'text-chart-1',
     bg: 'bg-chart-1/10',
-    accent: 'border-chart-1/20',
+    accent: 'border-primary/20',
   },
   {
     key: 'interactiveMaps',
@@ -61,7 +61,7 @@ const features = [
     icon: Layers,
     color: 'text-chart-1',
     bg: 'bg-chart-1/10',
-    accent: 'border-chart-1/20',
+    accent: 'border-primary/20',
   },
 ];
 
@@ -69,7 +69,7 @@ export function FeatureCarousel() {
   const t = useTranslations('Features');
 
   return (
-    <section className="py-16">
+    <section className="pb-16 pt-10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

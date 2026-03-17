@@ -2,6 +2,7 @@
 
 import { useTransition } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
+import { useTopLoader } from 'nextjs-toploader';
 import {
   Select,
   SelectContent,
@@ -18,6 +19,7 @@ export function LocaleSwitcher() {
   const t = useTranslations('LocaleSwitcher');
   const router = useRouter();
   const pathname = usePathname();
+  const loader = useTopLoader();
   const [isPending, startTransition] = useTransition();
 
   const localeMeta = supportedLocales.map((value) => ({
@@ -33,7 +35,12 @@ export function LocaleSwitcher() {
   function onValueChange(nextLocale: string) {
     const targetLocale = nextLocale as AppLocale;
 
+    if (targetLocale === locale) {
+      return;
+    }
+
     startTransition(() => {
+      loader.start();
       router.replace(pathname, { locale: targetLocale });
     });
   }

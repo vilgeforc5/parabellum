@@ -100,7 +100,7 @@ export default async function AboutUsPage() {
       </div>
 
       <div className="grid gap-6">
-        <Card className="border-chart-1/20 bg-card/60">
+        <Card className="border-primary/20 bg-card/60">
           <CardHeader className="grid grid-cols-[2.75rem_minmax(0,1fr)] items-center gap-4 space-y-0">
             <div className="flex size-11 items-center justify-center self-center rounded-2xl bg-chart-1/10 text-chart-1 ring-1 ring-chart-1/15">
               <InsightIcon className="size-5" />

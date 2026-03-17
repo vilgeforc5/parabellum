@@ -4,14 +4,12 @@ import type {
   TimelineDataPoint,
 } from '@parabellum/contracts';
 import { CategoryBarChart } from '@/components/charts/category-bar-chart';
-import { SummaryStats } from '@/components/summary-stats';
 import { TimelineChart } from '@/components/charts/timeline-chart';
 import { HeroSection } from '@/components/landing/hero-section';
 import { FeatureCarousel } from '@/components/landing/feature-carousel';
 import { PlatformCards } from '@/components/landing/platform-cards';
 import { BlogPreview } from '@/components/landing/blog-preview';
 import { RecentLosses } from '@/components/landing/recent-losses';
-import { Separator } from '@/components/ui/separator';
 
 const mockTimeline: TimelineDataPoint[] = [
   {
@@ -180,20 +178,9 @@ export default async function HomePage() {
   return (
     <div>
       <HeroSection />
-
-      <Separator className="my-4" />
-
-      <SummaryStats
-        totalLosses={2173}
-        destroyed={1387}
-        captured={254}
-        last24h={12}
-      />
-
+      <PlatformCards />
+      <BlogPreview />
       <FeatureCarousel />
-
-      <Separator className="my-4" />
-
       <section className="py-16">
         <div className="grid gap-6 lg:grid-cols-2">
           <TimelineChart data={mockTimeline} title={charts('timelineTitle')} />
@@ -203,17 +190,6 @@ export default async function HomePage() {
           />
         </div>
       </section>
-
-      <Separator className="my-4" />
-
-      <PlatformCards />
-
-      <Separator className="my-4" />
-
-      <BlogPreview />
-
-      <Separator className="my-4" />
-
       <RecentLosses />
     </div>
   );

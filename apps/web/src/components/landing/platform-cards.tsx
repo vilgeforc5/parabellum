@@ -3,11 +3,11 @@
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import {
+  BarChart3,
   Crosshair,
-  Search,
   FileText,
   MapPin,
-  BarChart3,
+  Search,
   TrendingUp,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -67,7 +67,7 @@ export function PlatformCards() {
   const t = useTranslations('Platform');
 
   return (
-    <section className="py-16">
+    <section className="py-10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
