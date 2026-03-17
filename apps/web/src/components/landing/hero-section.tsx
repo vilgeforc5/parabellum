@@ -27,7 +27,7 @@ function FloatingStats() {
       {stats.map((stat, i) => (
         <div
           key={i}
-          className="min-w-33 rounded-2xl border border-border/60 bg-card/65 px-5 py-4 text-left shadow-sm backdrop-blur-sm"
+          className="w-full md:w-56 rounded-2xl border border-border/60 bg-card/65 px-5 py-4 text-left shadow-sm backdrop-blur-sm"
         >
           <div className="text-2xl font-bold text-foreground md:text-3xl">
             {stat.value}

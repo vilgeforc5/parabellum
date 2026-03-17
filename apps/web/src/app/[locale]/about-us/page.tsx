@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server';
+import { withLocale } from '@/lib/with-locale';
 import type { SVGProps } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -74,7 +75,7 @@ function LinkIcon(props: IconProps) {
   );
 }
 
-export default async function AboutUsPage() {
+export default withLocale(async function AboutUsPage() {
   const t = await getTranslations('AboutPage');
 
   return (
@@ -173,4 +174,4 @@ export default async function AboutUsPage() {
       </div>
     </section>
   );
-}
+});

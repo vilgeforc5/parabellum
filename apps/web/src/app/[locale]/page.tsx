@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server';
+import { withLocale } from '@/lib/with-locale';
 import type {
   CategoryBreakdown,
   TimelineDataPoint,
@@ -172,7 +173,7 @@ const mockCategories: CategoryBreakdown[] = [
   },
 ];
 
-export default async function HomePage() {
+export default withLocale(async function HomePage() {
   const charts = await getTranslations('Charts');
 
   return (
@@ -193,4 +194,4 @@ export default async function HomePage() {
       <RecentLosses />
     </div>
   );
-}
+});
