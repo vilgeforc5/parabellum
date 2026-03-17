@@ -1,11 +1,7 @@
 'use client';
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { useLocale, useTranslations } from 'next-intl';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Flame, ShieldAlert, Flag, Clock } from 'lucide-react';
 
 interface StatCardProps {
@@ -29,7 +25,9 @@ function StatCard({
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {title}
         </CardTitle>
-        <Icon className={`h-4 w-4 ${iconClassName ?? 'text-muted-foreground'}`} />
+        <Icon
+          className={`h-4 w-4 ${iconClassName ?? 'text-muted-foreground'}`}
+        />
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">{value}</div>
@@ -54,30 +52,33 @@ export function SummaryStats({
   captured,
   last24h,
 }: SummaryStatsProps) {
+  const t = useTranslations('Stats');
+  const locale = useLocale();
+
   return (
     <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
       <StatCard
-        title="Total Verified Losses"
-        value={totalLosses.toLocaleString()}
+        title={t('totalVerifiedLosses')}
+        value={totalLosses.toLocaleString(locale)}
         icon={ShieldAlert}
         iconClassName="text-chart-1"
       />
       <StatCard
-        title="Destroyed"
-        value={destroyed.toLocaleString()}
+        title={t('destroyed')}
+        value={destroyed.toLocaleString(locale)}
         icon={Flame}
         iconClassName="text-red-400"
       />
       <StatCard
-        title="Captured"
-        value={captured.toLocaleString()}
+        title={t('captured')}
+        value={captured.toLocaleString(locale)}
         icon={Flag}
         iconClassName="text-blue-400"
       />
       <StatCard
-        title="Last 24 Hours"
-        value={last24h.toLocaleString()}
-        subtitle="newly verified"
+        title={t('last24Hours')}
+        value={last24h.toLocaleString(locale)}
+        subtitle={t('newlyVerified')}
         icon={Clock}
         iconClassName="text-green-400"
       />

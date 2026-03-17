@@ -1,0 +1,45 @@
+{
+  "Metadata": {
+    "title": "Parabellum | Military Equipment Analytics",
+    "description": "Open-source military equipment loss tracking and analytics platform with verified data, interactive charts, and geospatial mapping."
+  },
+  "Navigation": {
+    "brand": "Parabellum",
+    "home": "Home",
+    "analytics": "Analytics",
+    "map": "Map",
+    "report": "Report"
+  },
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locales": {
+      "en": {
+        "countryCode": "US",
+        "countryName": "United States",
+        "flag": "🇺🇸"
+      },
+      "ru": {
+        "countryCode": "RU",
+        "countryName": "Россия",
+        "flag": "🇷🇺"
+      }
+    }
+  },
+  "HomePage": {
+    "heroTitle": "Equipment Loss Tracker",
+    "heroDescription": "Verified, open-source intelligence on military equipment losses. Browse by conflict, category, or country. All entries include photographic evidence and geolocation data.",
+    "recentTitle": "Recent Verified Losses",
+    "recentHint": "Loss cards will render here once Strapi content types are populated."
+  },
+  "Stats": {
+    "totalVerifiedLosses": "Total Verified Losses",
+    "destroyed": "Destroyed",
+    "captured": "Captured",
+    "last24Hours": "Last 24 Hours",
+    "newlyVerified": "newly verified"
+  },
+  "Charts": {
+    "timelineTitle": "Losses Over Time",
+    "categoryTitle": "Losses by Equipment Category"
+  }
+}
