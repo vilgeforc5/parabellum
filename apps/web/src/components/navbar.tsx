@@ -4,6 +4,7 @@ import { BarChart3, FileText, HomeIcon, Info, Map } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { LocaleSwitcher } from '@/components/locale-switcher';
+import { ModeToggle } from '@/components/mode-toggle';
 import { Button } from '@/components/ui/button';
 import { LogoIcon } from '@/components/ui/logo-icon';
 import { Link, usePathname } from '@/i18n/navigation';
@@ -30,7 +31,7 @@ export function Navbar() {
       .sort((a, b) => b.href.length - a.href.length)[0]?.href ?? '/';
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-border backdrop-blur-sm">
       <div className="container mx-auto flex h-14 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 font-bold text-lg">
           <LogoIcon className="h-5 w-5" />
@@ -67,6 +68,7 @@ export function Navbar() {
               <Link href="/about-us">{t('about')}</Link>
             </Button>
           </div>
+          <ModeToggle />
           <LocaleSwitcher />
         </div>
       </div>

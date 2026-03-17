@@ -10,6 +10,7 @@ import {
 import { notFound } from 'next/navigation';
 import { Footer } from '@/components/footer';
 import { Navbar } from '@/components/navbar';
+import { ThemeProvider } from '@/components/theme-provider';
 import { routing } from '@/i18n/routing';
 import { cn } from '@/lib/utils';
 
@@ -54,18 +55,30 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className="dark">
+    <html lang={locale} suppressHydrationWarning>
       <body
-        className={cn(
-          'flex min-h-screen flex-col bg-background font-sans antialiased',
-          inter.variable,
-        )}
+        className={cn('bg-background font-sans antialiased', inter.variable)}
       >
-        <NextIntlClientProvider messages={messages}>
-          <Navbar />
-          <main className="container mx-auto flex-1 px-4 py-6">{children}</main>
-          <Footer />
-        </NextIntlClientProvider>
+        <div aria-hidden className="site-backdrop">
+          <div className="site-grid" />
+          <div className="site-vignette" />
+        </div>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="relative z-10 flex min-h-screen flex-col">
+            <NextIntlClientProvider messages={messages}>
+              <Navbar />
+              <main className="container mx-auto flex-1 px-4 py-6">
+                {children}
+              </main>
+              <Footer />
+            </NextIntlClientProvider>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

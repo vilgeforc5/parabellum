@@ -26,6 +26,11 @@
       }
     }
   },
+  "ThemeToggle": {
+    "toggleTheme": "Toggle theme",
+    "switchToDark": "Switch to dark mode",
+    "switchToLight": "Switch to light mode"
+  },
   "HomePage": {
     "heroBadge": "Open-Source Intelligence Platform",
     "heroTitle": "Armed Conflict Analytics",
