@@ -8,6 +8,7 @@ import {
   setRequestLocale,
 } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { Footer } from '@/components/footer';
 import { Navbar } from '@/components/navbar';
 import { routing } from '@/i18n/routing';
 import { cn } from '@/lib/utils';
@@ -56,13 +57,14 @@ export default async function LocaleLayout({
     <html lang={locale} className="dark">
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased',
+          'flex min-h-screen flex-col bg-background font-sans antialiased',
           inter.variable,
         )}
       >
         <NextIntlClientProvider messages={messages}>
           <Navbar />
-          <main className="container mx-auto px-4 py-6">{children}</main>
+          <main className="container mx-auto flex-1 px-4 py-6">{children}</main>
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>

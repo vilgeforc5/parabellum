@@ -9,14 +9,14 @@
     "analytics": "Analytics",
     "map": "Map",
     "blog": "Blog",
-    "report": "Report"
+    "about": "About"
   },
   "LocaleSwitcher": {
     "label": "Change language",
     "locales": {
       "en": {
-        "countryCode": "US",
-        "countryName": "United States",
+        "countryCode": "EN",
+        "countryName": "English",
         "flag": "🇺🇸"
       },
       "ru": {
@@ -131,5 +131,19 @@
   "Charts": {
     "timelineTitle": "Losses Over Time",
     "categoryTitle": "Losses by Equipment Category"
+  },
+  "AboutPage": {
+    "eyebrow": "About the platform",
+    "title": "What is Parabellum?",
+    "description": "Parabellum is an independent analytics platform focused on armed conflicts and the documented losses of military equipment used within them.",
+    "missionTitle": "How we approach analysis",
+    "missionBody": "Our goal is to give researchers, journalists, and the public a clear, verifiable, and as objective a view as possible of equipment losses across 21st-century conflicts. We combine OSINT workflows, structured datasets, visual analytics, and modern verification tools to do that well.",
+    "policyTitle": "Do you track Russian military losses?",
+    "policyBody": "No, <bold>Parabellum will never track Russian losses</bold>, regardless of the conflict, theater, or countries involved.",
+    "donationsTitle": "Do you accept donations?",
+    "donationsBody": "No. If you want to support people who genuinely need help, please learn more through our friends here: <link>recommended fundraiser</link>.",
+    "linksTitle": "Useful links",
+    "analyticsLink": "Open analytics",
+    "friendsLink": "Visit our friends"
   }
 }
