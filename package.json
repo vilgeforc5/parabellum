@@ -20,6 +20,7 @@
     "@types/react-dom": "18.3.0",
     "nx": "22.5.4",
     "prettier": "~3.6.2",
+    "shadcn": "^4.0.8",
     "tslib": "^2.3.0",
     "typescript": "~5.9.2"
   },
