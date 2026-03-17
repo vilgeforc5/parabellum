@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { BarChart3, Crosshair, Map, Send } from 'lucide-react';
+import { BarChart3, Crosshair, FileText, Map, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LocaleSwitcher } from '@/components/locale-switcher';
 import { Link } from '@/i18n/navigation';
@@ -8,6 +8,7 @@ const navLinks = [
   { href: '/', label: 'home', icon: Crosshair },
   { href: '/analytics', label: 'analytics', icon: BarChart3 },
   { href: '/analytics/map', label: 'map', icon: Map },
+  { href: '/blog', label: 'blog', icon: FileText },
   { href: '/submit', label: 'report', icon: Send },
 ];
 

@@ -6,6 +6,12 @@ import type {
 import { CategoryBarChart } from '@/components/charts/category-bar-chart';
 import { SummaryStats } from '@/components/summary-stats';
 import { TimelineChart } from '@/components/charts/timeline-chart';
+import { HeroSection } from '@/components/landing/hero-section';
+import { FeatureCarousel } from '@/components/landing/feature-carousel';
+import { PlatformCards } from '@/components/landing/platform-cards';
+import { BlogPreview } from '@/components/landing/blog-preview';
+import { RecentLosses } from '@/components/landing/recent-losses';
+import { Separator } from '@/components/ui/separator';
 
 const mockTimeline: TimelineDataPoint[] = [
   {
@@ -169,17 +175,13 @@ const mockCategories: CategoryBreakdown[] = [
 ];
 
 export default async function HomePage() {
-  const t = await getTranslations('HomePage');
   const charts = await getTranslations('Charts');
 
   return (
-    <div className="space-y-8">
-      <section>
-        <h1 className="text-3xl font-bold tracking-tight">{t('heroTitle')}</h1>
-        <p className="mt-2 max-w-2xl text-muted-foreground">
-          {t('heroDescription')}
-        </p>
-      </section>
+    <div>
+      <HeroSection />
+
+      <Separator className="my-4" />
 
       <SummaryStats
         totalLosses={2173}
@@ -188,32 +190,31 @@ export default async function HomePage() {
         last24h={12}
       />
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <TimelineChart data={mockTimeline} title={charts('timelineTitle')} />
-        <CategoryBarChart
-          data={mockCategories}
-          title={charts('categoryTitle')}
-        />
-      </div>
+      <FeatureCarousel />
 
-      <section>
-        <h2 className="mb-4 text-xl font-semibold">{t('recentTitle')}</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div
-              key={i}
-              className="space-y-3 rounded-xl border border-border bg-card p-4"
-            >
-              <div className="h-40 animate-pulse rounded-lg bg-muted" />
-              <div className="h-4 w-3/4 rounded bg-muted" />
-              <div className="h-3 w-1/2 rounded bg-muted" />
-            </div>
-          ))}
+      <Separator className="my-4" />
+
+      <section className="py-16">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <TimelineChart data={mockTimeline} title={charts('timelineTitle')} />
+          <CategoryBarChart
+            data={mockCategories}
+            title={charts('categoryTitle')}
+          />
         </div>
-        <p className="mt-4 text-center text-sm text-muted-foreground">
-          {t('recentHint')}
-        </p>
       </section>
+
+      <Separator className="my-4" />
+
+      <PlatformCards />
+
+      <Separator className="my-4" />
+
+      <BlogPreview />
+
+      <Separator className="my-4" />
+
+      <RecentLosses />
     </div>
   );
 }

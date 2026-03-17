@@ -8,6 +8,7 @@
     "home": "Home",
     "analytics": "Analytics",
     "map": "Map",
+    "blog": "Blog",
     "report": "Report"
   },
   "LocaleSwitcher": {
@@ -26,10 +27,99 @@
     }
   },
   "HomePage": {
-    "heroTitle": "Equipment Loss Tracker",
-    "heroDescription": "Verified, open-source intelligence on military equipment losses. Browse by conflict, category, or country. All entries include photographic evidence and geolocation data.",
+    "heroBadge": "Open-Source Intelligence Platform",
+    "heroTitle": "Armed Conflict Analytics",
+    "heroTitleAccent": "& Destroyed Equipment Statistics",
+    "heroDescription": "Verified OSINT data on military equipment losses across active conflicts. Photographic evidence, geolocation, and deep analytics — all in one platform.",
+    "heroCTA": "Explore Analytics",
+    "heroMapCTA": "Open Conflict Map",
     "recentTitle": "Recent Verified Losses",
-    "recentHint": "Loss cards will render here once Strapi content types are populated."
+    "recentHint": "Latest confirmed equipment losses with photographic evidence"
+  },
+  "Features": {
+    "sectionTitle": "Platform Capabilities",
+    "sectionDescription": "Powerful tools for conflict monitoring and military equipment analysis",
+    "liveTracking": {
+      "title": "Live Loss Tracking",
+      "description": "Real-time feed of verified military equipment losses with status updates, photographic evidence, and source attribution."
+    },
+    "interactiveMaps": {
+      "title": "Interactive Conflict Maps",
+      "description": "Geospatial visualization of equipment losses pinpointed to exact coordinates with satellite imagery overlay."
+    },
+    "deepAnalytics": {
+      "title": "Deep Analytics",
+      "description": "Trend analysis, category breakdowns, and time-series charts revealing patterns in equipment attrition across conflicts."
+    },
+    "advancedSearch": {
+      "title": "Advanced Search & Filters",
+      "description": "Filter losses by equipment type, country, conflict, status, date range, and verification level with instant results."
+    },
+    "verifiedData": {
+      "title": "Verified & Sourced Data",
+      "description": "Every entry is cross-referenced with multiple OSINT sources, photo/video evidence, and community verification."
+    },
+    "categoryBreakdown": {
+      "title": "Category Breakdown",
+      "description": "Detailed classification from MBTs and IFVs to UAVs and SAM systems with model-level specificity."
+    }
+  },
+  "Platform": {
+    "sectionTitle": "What's Inside",
+    "sectionDescription": "A comprehensive toolkit for conflict analysts, researchers, and journalists",
+    "lossPages": {
+      "title": "Individual Loss Pages",
+      "description": "Detailed page for every confirmed loss — photos, geolocation, equipment specs, and verification status.",
+      "tag": "Coming Soon"
+    },
+    "searchFilters": {
+      "title": "Search & Filters",
+      "description": "Powerful search with multi-dimensional filtering by type, country, conflict zone, date, and verification status.",
+      "tag": "Coming Soon"
+    },
+    "analyticsBlog": {
+      "title": "Analytics Blog",
+      "description": "Expert analysis posts covering conflict trends, equipment effectiveness, and strategic assessments.",
+      "tag": "Coming Soon"
+    },
+    "conflictMaps": {
+      "title": "Conflict Maps",
+      "description": "Interactive maps with heatmaps, cluster markers, and timeline playback of equipment loss events.",
+      "tag": "Coming Soon"
+    },
+    "dashboards": {
+      "title": "Analytics Dashboards",
+      "description": "Customizable dashboards with charts, comparison tables, and exportable reports for research purposes.",
+      "tag": "In Development"
+    },
+    "trends": {
+      "title": "Trend Analysis",
+      "description": "Historical trend lines, seasonal patterns, and predictive indicators based on verified loss data.",
+      "tag": "In Development"
+    }
+  },
+  "Blog": {
+    "sectionTitle": "Latest Analysis",
+    "sectionDescription": "In-depth research and analytical reports from our team",
+    "viewAll": "View All Posts",
+    "readTime": "{minutes} min read",
+    "tags": {
+      "analysis": "Analysis",
+      "osint": "OSINT",
+      "trends": "Trends"
+    },
+    "post1": {
+      "title": "Armored Vehicle Attrition Patterns in Modern Conflicts",
+      "excerpt": "A deep dive into how modern anti-tank systems have shifted the balance of armored warfare, with data from 14,000+ verified losses."
+    },
+    "post2": {
+      "title": "OSINT Verification Methods: How We Confirm Equipment Losses",
+      "excerpt": "Our methodology for cross-referencing satellite imagery, social media posts, and official reports to build a reliable dataset."
+    },
+    "post3": {
+      "title": "The Rise of UAV Losses: A 2024-2026 Trend Analysis",
+      "excerpt": "Drone warfare has transformed the battlefield. This analysis tracks the exponential growth in UAV attrition across multiple theaters."
+    }
   },
   "Stats": {
     "totalVerifiedLosses": "Total Verified Losses",
