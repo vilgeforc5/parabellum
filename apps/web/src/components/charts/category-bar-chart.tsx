@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CHART_STATUS_COLORS, useChartTheme } from '@/lib/chart-theme';
 import type { CategoryBreakdown } from '@parabellum/contracts';
 
 interface CategoryBarChartProps {
@@ -21,6 +22,8 @@ export function CategoryBarChart({
   data,
   title = 'Losses by Equipment Category',
 }: CategoryBarChartProps) {
+  const { grid, axis, tooltipStyle } = useChartTheme();
+
   const chartData = data.map((d) => ({
     name: d.category.name,
     destroyed: d.byStatus.destroyed,
@@ -38,27 +41,36 @@ export function CategoryBarChart({
         <div className="h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} layout="vertical">
-              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-              <XAxis type="number" stroke="#a1a1aa" fontSize={12} />
+              <CartesianGrid strokeDasharray="3 3" stroke={grid} />
+              <XAxis type="number" stroke={axis} fontSize={12} />
               <YAxis
                 dataKey="name"
                 type="category"
-                stroke="#a1a1aa"
+                stroke={axis}
                 fontSize={12}
                 width={100}
               />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: '#18181b',
-                  border: '1px solid #27272a',
-                  borderRadius: '0.5rem',
-                  color: '#fafafa',
-                }}
+              <Tooltip contentStyle={tooltipStyle} />
+              <Bar
+                dataKey="destroyed"
+                stackId="a"
+                fill={CHART_STATUS_COLORS.destroyed}
               />
-              <Bar dataKey="destroyed" stackId="a" fill="#e11d48" />
-              <Bar dataKey="damaged" stackId="a" fill="#f97316" />
-              <Bar dataKey="captured" stackId="a" fill="#2563eb" />
-              <Bar dataKey="abandoned" stackId="a" fill="#71717a" />
+              <Bar
+                dataKey="damaged"
+                stackId="a"
+                fill={CHART_STATUS_COLORS.damaged}
+              />
+              <Bar
+                dataKey="captured"
+                stackId="a"
+                fill={CHART_STATUS_COLORS.captured}
+              />
+              <Bar
+                dataKey="abandoned"
+                stackId="a"
+                fill={CHART_STATUS_COLORS.abandoned}
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>

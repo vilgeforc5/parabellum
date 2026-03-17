@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CHART_STATUS_COLORS, useChartTheme } from '@/lib/chart-theme';
 import type { TimelineDataPoint } from '@parabellum/contracts';
 
 interface TimelineChartProps {
@@ -21,6 +22,8 @@ export function TimelineChart({
   data,
   title = 'Losses Over Time',
 }: TimelineChartProps) {
+  const { grid, axis, tooltipStyle } = useChartTheme();
+
   return (
     <Card>
       <CardHeader>
@@ -30,52 +33,45 @@ export function TimelineChart({
         <div className="h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
+              <CartesianGrid strokeDasharray="3 3" stroke={grid} />
               <XAxis
                 dataKey="date"
-                stroke="#a1a1aa"
+                stroke={axis}
                 fontSize={12}
                 tickLine={false}
               />
-              <YAxis stroke="#a1a1aa" fontSize={12} tickLine={false} />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: '#18181b',
-                  border: '1px solid #27272a',
-                  borderRadius: '0.5rem',
-                  color: '#fafafa',
-                }}
-              />
+              <YAxis stroke={axis} fontSize={12} tickLine={false} />
+              <Tooltip contentStyle={tooltipStyle} />
               <Area
                 type="monotone"
                 dataKey="destroyed"
                 stackId="1"
-                stroke="#e11d48"
-                fill="#e11d48"
+                stroke={CHART_STATUS_COLORS.destroyed}
+                fill={CHART_STATUS_COLORS.destroyed}
                 fillOpacity={0.4}
               />
               <Area
                 type="monotone"
                 dataKey="damaged"
                 stackId="1"
-                stroke="#f97316"
-                fill="#f97316"
+                stroke={CHART_STATUS_COLORS.damaged}
+                fill={CHART_STATUS_COLORS.damaged}
                 fillOpacity={0.4}
               />
               <Area
                 type="monotone"
                 dataKey="captured"
                 stackId="1"
-                stroke="#2563eb"
-                fill="#2563eb"
+                stroke={CHART_STATUS_COLORS.captured}
+                fill={CHART_STATUS_COLORS.captured}
                 fillOpacity={0.4}
               />
               <Area
                 type="monotone"
                 dataKey="abandoned"
                 stackId="1"
-                stroke="#71717a"
-                fill="#71717a"
+                stroke={CHART_STATUS_COLORS.abandoned}
+                fill={CHART_STATUS_COLORS.abandoned}
                 fillOpacity={0.4}
               />
             </AreaChart>

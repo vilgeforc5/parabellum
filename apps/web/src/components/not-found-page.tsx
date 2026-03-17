@@ -18,7 +18,7 @@ export function NotFoundPage({
   title,
 }: NotFoundPageProps) {
   return (
-    <section className="flex min-h-screen items-center justify-center px-4 py-10">
+    <section className="flex flex-1 items-center justify-center px-4 py-10">
       <div className="flex w-full max-w-2xl flex-col items-center justify-center text-center">
         <p className="w-full text-center text-7xl font-semibold  text-chart-1 sm:text-8xl">
           404
