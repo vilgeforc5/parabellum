@@ -19,6 +19,12 @@
       "options": {
         "cwd": "apps/strapi"
       }
+    },
+    "seed": {
+      "command": "node seed-map-data.mjs",
+      "options": {
+        "cwd": "apps/strapi"
+      }
     }
   }
 }

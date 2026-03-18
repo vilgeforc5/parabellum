@@ -9,20 +9,41 @@ Monorepo for the Parabellum web platform, built with [Nx](https://nx.dev).
 | `apps/web` | Next.js frontend (SSG + ISR, bilingual EN/RU) |
 | `apps/strapi` | Strapi CMS — content source for the web app |
 
-## Running tasks
+## Quick start
 
 ```sh
-# Serve the web app locally
-pnpm nx serve web
+pnpm docker:up          # Start PostgreSQL
+pnpm dev                # Start Strapi + web in parallel
+```
 
+## Common tasks
+
+```sh
 # Build all apps
 pnpm nx run-many -t build
+
+# Build / dev a single app
+pnpm nx build web
+pnpm nx dev strapi
+
+# Generate Strapi TypeScript types
+pnpm nx run strapi:generate-types
+
+# Seed Strapi with initial map data (Strapi must be running)
+pnpm nx run strapi:seed
 
 # Run a specific target
 pnpm nx <target> <project>
 ```
 
 Targets are defined in each project's `project.json` or inferred by Nx plugins.
+
+## Deployment
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for step-by-step instructions.
+
+- **Strapi** deploys to [Strapi Cloud](https://strapi.io/cloud) via `strapi deploy`
+- **Web** deploys to [Vercel](https://vercel.com) via `vercel --prod`
 
 ## Architecture
 
