@@ -9,12 +9,15 @@ export type StrapiCountry = Modules.Documents.Result<'api::country.country'>;
 export type StrapiDestroyedBy = Modules.Documents.Result<
   'api::destroyed-by.destroyed-by'
 >;
-export type StrapiEquipmentType = Modules.Documents.Result<
+type RawStrapiEquipmentType = Modules.Documents.Result<
   'api::equipment-type.equipment-type'
 >;
 export type StrapiRegion = Modules.Documents.Result<'api::region.region'>;
 export type StrapiStatus = Modules.Documents.Result<'api::status.status'>;
 export type StrapiUploadFile = Modules.Documents.Result<'plugin::upload.file'>;
+export type StrapiEquipmentType = Omit<RawStrapiEquipmentType, 'previewSvg'> & {
+  previewSvg?: StrapiUploadFile | null;
+};
 export type StrapiWarConflict = Modules.Documents.Result<
   'api::war-conflict.war-conflict'
 >;
@@ -109,6 +112,7 @@ export interface EquipmentType {
   documentId: string;
   name: string;
   slug: string;
+  previewSvgUrl: string | null;
 }
 
 export interface Equipment {

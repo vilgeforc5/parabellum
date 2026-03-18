@@ -77,10 +77,21 @@ export function RecentLosses({ losses }: RecentLossesProps) {
             <Card className="group border-border/50 bg-card/50 backdrop-blur-sm transition-all hover:border-border hover:bg-card/80 cursor-pointer">
               <div className="relative h-36 overflow-hidden rounded-t-xl bg-gradient-to-br from-secondary to-background">
                 <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.02)_25%,rgba(255,255,255,0.02)_50%,transparent_50%,transparent_75%,rgba(255,255,255,0.02)_75%)] bg-[length:4px_4px]" />
-                <div className="absolute top-3 right-3">
+                {loss.equipment?.type?.previewSvgUrl ? (
+                  <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-10">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.12),transparent_58%)]" />
+                    <img
+                      src={loss.equipment.type.previewSvgUrl}
+                      alt=""
+                      aria-hidden="true"
+                      className="relative max-h-20 max-w-full object-contain opacity-95 drop-shadow-[0_12px_24px_rgba(0,0,0,0.3)]"
+                    />
+                  </div>
+                ) : null}
+                <div className="absolute top-3 right-3 z-10">
                   <StatusBadge status={loss.status?.slug ?? 'unknown'} />
                 </div>
-                <div className="absolute bottom-3 left-3">
+                <div className="absolute bottom-3 left-3 z-10">
                   <Badge variant="secondary" className="text-xs">
                     {loss.equipment?.type?.name ??
                       loss.destroyedBy[0]?.name ??

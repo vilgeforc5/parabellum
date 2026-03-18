@@ -1,5 +1,4 @@
-import { setRequestLocale } from 'next-intl/server';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Calendar, Clock, Tag } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -7,8 +6,8 @@ import { Link } from '@/i18n/navigation';
 import type { AppLocale } from '@/i18n/routing';
 import { BlogFilters } from '@/components/blog/blog-filters';
 import {
-  getBlogPosts,
   getBlogPostCategories,
+  getBlogPosts,
   type ReadTimeBucket,
 } from '@/lib/strapi';
 
@@ -17,16 +16,19 @@ interface BlogPageProps {
   searchParams: Promise<{ category?: string; readTime?: string }>;
 }
 
-export default async function BlogPage({ params, searchParams }: BlogPageProps) {
+export default async function BlogPage({
+  params,
+  searchParams,
+}: BlogPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
   const { category, readTime } = await searchParams;
   const t = await getTranslations('BlogPage');
 
-  const validReadTime = (['short', 'medium', 'long'] as ReadTimeBucket[]).includes(
-    readTime as ReadTimeBucket
-  )
+  const validReadTime = (
+    ['short', 'medium', 'long'] as ReadTimeBucket[]
+  ).includes(readTime as ReadTimeBucket)
     ? (readTime as ReadTimeBucket)
     : undefined;
 
@@ -65,7 +67,9 @@ export default async function BlogPage({ params, searchParams }: BlogPageProps) 
       {posts.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 text-center">
           <p className="text-lg font-medium">{t('noPosts')}</p>
-          <p className="mt-2 text-sm text-muted-foreground">{t('noPostsHint')}</p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {t('noPostsHint')}
+          </p>
         </div>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -88,12 +92,7 @@ export default async function BlogPage({ params, searchParams }: BlogPageProps) 
                   )}
                   {post.category && (
                     <div className="absolute top-3 left-3">
-                      <Badge
-                        variant="outline"
-                        className="bg-chart-1/10 text-chart-1 border-primary/30 text-xs font-medium"
-                      >
-                        {post.category.name}
-                      </Badge>
+                      <Badge variant="outline">{post.category.name}</Badge>
                     </div>
                   )}
                 </div>

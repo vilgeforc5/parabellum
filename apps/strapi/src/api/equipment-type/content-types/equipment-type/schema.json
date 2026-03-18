@@ -21,6 +21,13 @@
       "required": true,
       "unique": true
     },
+    "previewSvg": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
     "equipments": {
       "type": "relation",
       "relation": "oneToMany",

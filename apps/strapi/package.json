@@ -10,7 +10,6 @@
     "dev": "strapi develop",
     "develop": "strapi develop",
     "generate:types": "strapi ts:generate-types --debug",
-    "seed": "node ./scripts/seed.js",
     "start": "strapi start",
     "strapi": "strapi",
     "upgrade": "npx @strapi/upgrade latest",

@@ -98,11 +98,14 @@ export function mapDestroyedBy(entry: StrapiDestroyedBy): DestroyedBy {
 }
 
 export function mapEquipmentType(entry: StrapiEquipmentType): EquipmentType {
+  const previewSvg = mapUploadFile(entry.previewSvg);
+
   return {
     id: Number(entry.id),
     documentId: entry.documentId,
     name: asString(entry.name) ?? '',
     slug: asString(entry.slug) ?? '',
+    previewSvgUrl: previewSvg?.url ?? null,
   };
 }
 

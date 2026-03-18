@@ -36,7 +36,11 @@ const DESTROYED_EQUIPMENT_POPULATE = {
   equipment: {
     populate: {
       originCountry: true,
-      type: true,
+      type: {
+        populate: {
+          previewSvg: true,
+        },
+      },
     },
   },
   region: true,

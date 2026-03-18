@@ -736,6 +736,7 @@ export interface ApiEquipmentTypeEquipmentType
     name: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
+    previewSvg: Schema.Attribute.Media<'images'>;
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID<'name'> &
       Schema.Attribute.Required &
