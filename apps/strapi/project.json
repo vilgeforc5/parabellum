@@ -19,6 +19,12 @@
       "options": {
         "cwd": "apps/strapi"
       }
+    },
+    "seed": {
+      "command": "pnpm seed",
+      "options": {
+        "cwd": "apps/strapi"
+      }
     }
   }
 }

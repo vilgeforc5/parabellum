@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_shared_source_links",
+  "info": {
+    "displayName": "Source Link"
+  },
+  "options": {},
+  "attributes": {
+    "url": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

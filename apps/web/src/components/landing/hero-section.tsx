@@ -3,7 +3,8 @@
 import { Button } from '@/components/ui/button';
 import { Link } from '@/i18n/navigation';
 import { ArrowRight, Crosshair } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import type { HomeHeroStats } from '@/lib/strapi';
 
 function GridBackground() {
   return (
@@ -15,16 +16,39 @@ function GridBackground() {
   );
 }
 
-function FloatingStats() {
-  const stats = [
-    { value: '14,200+', label: 'Verified Losses' },
-    { value: '8', label: 'Active Conflicts' },
-    { value: '47', label: 'Countries' },
+function formatStatValue(value: number | null, locale: string) {
+  if (value === null) {
+    return '—';
+  }
+
+  return value.toLocaleString(locale);
+}
+
+function FloatingStats({
+  stats,
+}: {
+  stats: HomeHeroStats | null;
+}) {
+  const t = useTranslations('HomePage.heroStats');
+  const locale = useLocale();
+  const cards = [
+    {
+      value: formatStatValue(stats?.verifiedLosses ?? null, locale),
+      label: t('verifiedLosses'),
+    },
+    {
+      value: formatStatValue(stats?.activeConflicts ?? null, locale),
+      label: t('activeConflicts'),
+    },
+    {
+      value: formatStatValue(stats?.blogPosts ?? null, locale),
+      label: t('blogPosts'),
+    },
   ];
 
   return (
     <div className="mt-10 flex flex-wrap gap-4 md:gap-5">
-      {stats.map((stat, i) => (
+      {cards.map((stat, i) => (
         <div
           key={i}
           className="w-full md:w-56 rounded-2xl border border-border/60 bg-card/65 px-5 py-4 text-left shadow-sm backdrop-blur-sm"
@@ -39,7 +63,11 @@ function FloatingStats() {
   );
 }
 
-export function HeroSection() {
+export function HeroSection({
+  stats,
+}: {
+  stats: HomeHeroStats | null;
+}) {
   const t = useTranslations('HomePage');
 
   return (
@@ -75,7 +103,7 @@ export function HeroSection() {
           </Button>
         </div>
 
-        <FloatingStats />
+        <FloatingStats stats={stats} />
       </div>
     </section>
   );

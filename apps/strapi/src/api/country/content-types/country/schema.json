@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "countries",
+  "info": {
+    "singularName": "country",
+    "pluralName": "countries",
+    "displayName": "Country"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true,
+      "unique": true
+    },
+    "code": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "destroyedEquipments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::destroyed-equipment.destroyed-equipment",
+      "mappedBy": "country"
+    },
+    "originEquipments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::equipment.equipment",
+      "mappedBy": "originCountry"
+    },
+    "regions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::region.region",
+      "mappedBy": "country"
+    }
+  }
+}

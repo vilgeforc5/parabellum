@@ -64,7 +64,7 @@ export function BlogPreview({ posts }: BlogPreviewProps) {
           <motion.div key={post.id} variants={itemVariants}>
             <Link href={`/blog/${post.slug}`}>
               <Card className="group border-border/50 bg-card/50 backdrop-blur-sm transition-all hover:border-primary h-full flex flex-col cursor-pointer">
-                <div className="relative h-48 overflow-hidden rounded-t-xl bg-gradient-to-br from-secondary to-background">
+                <div className="relative h-48 overflow-hidden rounded-t-xl bg-linear-to-br from-secondary to-background">
                   {post.coverImageUrl ? (
                     <img
                       src={post.coverImageUrl}

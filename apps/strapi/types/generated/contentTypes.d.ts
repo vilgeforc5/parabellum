@@ -560,6 +560,352 @@ export interface ApiBlogPostBlogPost extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCountryCountry extends Struct.CollectionTypeSchema {
+  collectionName: 'countries';
+  info: {
+    displayName: 'Country';
+    pluralName: 'countries';
+    singularName: 'country';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    code: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    destroyedEquipments: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::destroyed-equipment.destroyed-equipment'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::country.country'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    originEquipments: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::equipment.equipment'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    regions: Schema.Attribute.Relation<'oneToMany', 'api::region.region'>;
+    slug: Schema.Attribute.UID<'name'> &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiDestroyedByDestroyedBy extends Struct.CollectionTypeSchema {
+  collectionName: 'destroyed_bies';
+  info: {
+    displayName: 'Destroyed By';
+    pluralName: 'destroyed-bies';
+    singularName: 'destroyed-by';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    destroyedEquipments: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::destroyed-equipment.destroyed-equipment'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::destroyed-by.destroyed-by'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiDestroyedEquipmentDestroyedEquipment
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'destroyed_equipments';
+  info: {
+    displayName: 'Destroyed Equipment';
+    pluralName: 'destroyed-equipments';
+    singularName: 'destroyed-equipment';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    country: Schema.Attribute.Relation<'manyToOne', 'api::country.country'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    destroyedBy: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::destroyed-by.destroyed-by'
+    >;
+    distanceKm: Schema.Attribute.Decimal;
+    equipment: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::equipment.equipment'
+    >;
+    equipmentLabel: Schema.Attribute.Text & Schema.Attribute.Required;
+    equipmentModification: Schema.Attribute.Text;
+    eventDate: Schema.Attribute.Date;
+    eventDateRaw: Schema.Attribute.Text;
+    latitude: Schema.Attribute.Decimal;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::destroyed-equipment.destroyed-equipment'
+    > &
+      Schema.Attribute.Private;
+    longitude: Schema.Attribute.Decimal;
+    publishedAt: Schema.Attribute.DateTime;
+    quantity: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<1>;
+    region: Schema.Attribute.Relation<'manyToOne', 'api::region.region'>;
+    reportedAt: Schema.Attribute.Date & Schema.Attribute.Required;
+    reportId: Schema.Attribute.Integer & Schema.Attribute.Required;
+    sourceFlag: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    sourceRecordId: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    sourceUrls: Schema.Attribute.Component<'shared.source-link', true>;
+    status: Schema.Attribute.Relation<'manyToOne', 'api::status.status'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    warConflict: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::war-conflict.war-conflict'
+    >;
+  };
+}
+
+export interface ApiEquipmentTypeEquipmentType
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'equipment_types';
+  info: {
+    displayName: 'Equipment Type';
+    pluralName: 'equipment-types';
+    singularName: 'equipment-type';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    equipments: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::equipment.equipment'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::equipment-type.equipment-type'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiEquipmentEquipment extends Struct.CollectionTypeSchema {
+  collectionName: 'equipments';
+  info: {
+    displayName: 'Equipment';
+    pluralName: 'equipments';
+    singularName: 'equipment';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    destroyedEquipments: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::destroyed-equipment.destroyed-equipment'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::equipment.equipment'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    originCountry: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::country.country'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    type: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::equipment-type.equipment-type'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiRegionRegion extends Struct.CollectionTypeSchema {
+  collectionName: 'regions';
+  info: {
+    displayName: 'Region';
+    pluralName: 'regions';
+    singularName: 'region';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    country: Schema.Attribute.Relation<'manyToOne', 'api::country.country'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    destroyedEquipments: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::destroyed-equipment.destroyed-equipment'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::region.region'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiStatusStatus extends Struct.CollectionTypeSchema {
+  collectionName: 'statuses';
+  info: {
+    displayName: 'Status';
+    pluralName: 'statuses';
+    singularName: 'status';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    destroyedEquipments: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::destroyed-equipment.destroyed-equipment'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::status.status'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiWarConflictWarConflict extends Struct.CollectionTypeSchema {
+  collectionName: 'war_conflicts';
+  info: {
+    displayName: 'War Conflict';
+    pluralName: 'war-conflicts';
+    singularName: 'war-conflict';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    destroyedEquipments: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::destroyed-equipment.destroyed-equipment'
+    >;
+    endDate: Schema.Attribute.Date;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::war-conflict.war-conflict'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    startDate: Schema.Attribute.Date;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -1073,6 +1419,14 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::blog-post-category.blog-post-category': ApiBlogPostCategoryBlogPostCategory;
       'api::blog-post.blog-post': ApiBlogPostBlogPost;
+      'api::country.country': ApiCountryCountry;
+      'api::destroyed-by.destroyed-by': ApiDestroyedByDestroyedBy;
+      'api::destroyed-equipment.destroyed-equipment': ApiDestroyedEquipmentDestroyedEquipment;
+      'api::equipment-type.equipment-type': ApiEquipmentTypeEquipmentType;
+      'api::equipment.equipment': ApiEquipmentEquipment;
+      'api::region.region': ApiRegionRegion;
+      'api::status.status': ApiStatusStatus;
+      'api::war-conflict.war-conflict': ApiWarConflictWarConflict;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

@@ -1,0 +1,100 @@
+{
+  "kind": "collectionType",
+  "collectionName": "destroyed_equipments",
+  "info": {
+    "singularName": "destroyed-equipment",
+    "pluralName": "destroyed-equipments",
+    "displayName": "Destroyed Equipment"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "sourceRecordId": {
+      "type": "integer",
+      "required": true,
+      "unique": true
+    },
+    "reportId": {
+      "type": "integer",
+      "required": true
+    },
+    "reportedAt": {
+      "type": "date",
+      "required": true
+    },
+    "eventDate": {
+      "type": "date"
+    },
+    "eventDateRaw": {
+      "type": "text"
+    },
+    "equipmentLabel": {
+      "type": "text",
+      "required": true
+    },
+    "equipmentModification": {
+      "type": "text"
+    },
+    "equipment": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::equipment.equipment",
+      "inversedBy": "destroyedEquipments"
+    },
+    "quantity": {
+      "type": "integer",
+      "required": true,
+      "default": 1,
+      "min": 1
+    },
+    "sourceFlag": {
+      "type": "boolean",
+      "default": false
+    },
+    "latitude": {
+      "type": "decimal"
+    },
+    "longitude": {
+      "type": "decimal"
+    },
+    "distanceKm": {
+      "type": "decimal"
+    },
+    "country": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::country.country",
+      "inversedBy": "destroyedEquipments"
+    },
+    "region": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::region.region",
+      "inversedBy": "destroyedEquipments"
+    },
+    "status": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::status.status",
+      "inversedBy": "destroyedEquipments"
+    },
+    "warConflict": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::war-conflict.war-conflict",
+      "inversedBy": "destroyedEquipments"
+    },
+    "destroyedBy": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::destroyed-by.destroyed-by",
+      "inversedBy": "destroyedEquipments"
+    },
+    "sourceUrls": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.source-link"
+    }
+  }
+}

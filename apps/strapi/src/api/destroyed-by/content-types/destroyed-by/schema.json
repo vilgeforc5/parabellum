@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "destroyed_bies",
+  "info": {
+    "singularName": "destroyed-by",
+    "pluralName": "destroyed-bies",
+    "displayName": "Destroyed By"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true,
+      "unique": true
+    },
+    "destroyedEquipments": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::destroyed-equipment.destroyed-equipment",
+      "mappedBy": "destroyedBy"
+    }
+  }
+}

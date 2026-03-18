@@ -42,6 +42,11 @@
     "heroDescription": "Verified OSINT data on military equipment losses across active conflicts. Photographic evidence, geolocation, and deep analytics — all in one platform.",
     "heroCTA": "Explore Analytics",
     "heroMapCTA": "Open Conflict Map",
+    "heroStats": {
+      "verifiedLosses": "Verified Losses",
+      "activeConflicts": "Active Conflicts",
+      "blogPosts": "Analytical Posts"
+    },
     "recentTitle": "Recent Verified Losses",
     "recentHint": "Latest confirmed equipment losses with photographic evidence"
   },
@@ -133,6 +138,10 @@
     "newlyVerified": "newly verified"
   },
   "Charts": {
+    "analyticsFallbackTitle": "Conflict Analytics",
+    "conflictHint": "Switch the selected armed conflict to update the charts below.",
+    "conflictLabel": "Conflict",
+    "conflictPlaceholder": "Select conflict",
     "timelineTitle": "Losses Over Time",
     "categoryTitle": "Losses by Equipment Category"
   },

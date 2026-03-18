@@ -1,5 +1,6 @@
 'use client';
 
+import type { HomeTimelinePoint } from '@/lib/strapi';
 import {
   AreaChart,
   Area,
@@ -13,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CHART_STATUS_COLORS, useChartTheme } from '@/lib/chart-theme';
 
 interface TimelineChartProps {
-  data: any[];
+  data: HomeTimelinePoint[];
   title?: string;
 }
 

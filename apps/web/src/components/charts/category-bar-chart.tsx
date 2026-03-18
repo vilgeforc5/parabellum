@@ -1,5 +1,6 @@
 'use client';
 
+import type { HomeCategoryStats } from '@/lib/strapi';
 import {
   BarChart,
   Bar,
@@ -13,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CHART_STATUS_COLORS, useChartTheme } from '@/lib/chart-theme';
 
 interface CategoryBarChartProps {
-  data: any[];
+  data: HomeCategoryStats[];
   title?: string;
 }
 
@@ -24,7 +25,7 @@ export function CategoryBarChart({
   const { grid, axis, tooltipStyle } = useChartTheme();
 
   const chartData = data.map((d) => ({
-    name: d.category.name,
+    name: d.name,
     destroyed: d.byStatus.destroyed,
     damaged: d.byStatus.damaged,
     captured: d.byStatus.captured,

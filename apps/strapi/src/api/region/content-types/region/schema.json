@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "regions",
+  "info": {
+    "singularName": "region",
+    "pluralName": "regions",
+    "displayName": "Region"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true,
+      "unique": true
+    },
+    "country": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::country.country",
+      "inversedBy": "regions"
+    },
+    "destroyedEquipments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::destroyed-equipment.destroyed-equipment",
+      "mappedBy": "region"
+    }
+  }
+}

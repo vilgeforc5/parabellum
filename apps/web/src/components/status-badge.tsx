@@ -28,8 +28,14 @@ const statusConfig: Record<LossStatus, { label: string; className: string }> = {
 export function StatusBadge({ status }: { status: LossStatus }) {
   const config = statusConfig[status];
   return (
-    <Badge variant="outline" className={cn(config.className)}>
-      {config.label}
+    <Badge
+      variant="outline"
+      className={cn(
+        config?.className ??
+          'border-border/70 bg-card text-foreground'
+      )}
+    >
+      {config?.label ?? status}
     </Badge>
   );
 }
