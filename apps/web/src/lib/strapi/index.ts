@@ -1,5 +1,4 @@
 import type { API } from '@strapi/client';
-import { unstable_cache } from 'next/cache';
 import type { AppLocale } from '@/i18n/routing';
 import { strapiClient } from './client';
 import { mapBlogPost, mapBlogPostCategory, mapConflictEvent, mapDestroyedEquipment, mapEquipmentType, mapWarConflict } from './mappers';
@@ -56,7 +55,6 @@ const HOME_PAGE_ANALYTICS_POPULATE = {
     },
   },
 } as const;
-const HOME_PAGE_ANALYTICS_REVALIDATE_SECONDS = 300;
 const HOME_PAGE_ANALYTICS_PAGE_SIZE = 250;
 const MIN_HOME_TIMELINE_MONTH = '2021-05';
 const TRACKED_STATUS_KEYS = [
@@ -202,24 +200,6 @@ function toMonthKey(value: string | null | undefined) {
   return match?.[1] ?? null;
 }
 
-function buildHomePageAnalytics(input: {
-  activeConflicts: number;
-  blogPosts: number;
-  losses: DestroyedEquipment[];
-}): HomePageAnalytics {
-  const lossAnalytics = buildLossAnalytics(input.losses);
-
-  return {
-    heroStats: {
-      verifiedLosses: lossAnalytics.verifiedLosses,
-      activeConflicts: input.activeConflicts,
-      blogPosts: input.blogPosts,
-    },
-    timeline: lossAnalytics.timeline,
-    categories: lossAnalytics.categories,
-  };
-}
-
 function buildLossAnalytics(losses: DestroyedEquipment[], maxCategories = 8) {
   const timelineByMonth = new Map<string, HomeTimelinePoint>();
   const categoriesBySlug = new Map<string, HomeCategoryStats>();
@@ -304,193 +284,123 @@ function resolveSelectedConflict(
   return conflicts[0] ?? null;
 }
 
-const getCachedHomePageAnalytics = unstable_cache(
-  async (locale?: AppLocale): Promise<HomePageAnalytics> => {
-    const today = new Date().toISOString().slice(0, 10);
+export async function getHeroStats(locale?: AppLocale): Promise<HomeHeroStats> {
+  const today = new Date().toISOString().slice(0, 10);
 
-    const [activeConflicts, blogPosts, losses] = await Promise.all([
-      getCollectionCount('war-conflicts', {
-        filters: {
-          $or: [
-            {
-              endDate: {
-                $null: true,
-              },
-            },
-            {
-              endDate: {
-                $gte: today,
-              },
-            },
-          ],
-        },
-      }),
-      getCollectionCount('blog-posts', {
-        ...(locale ? { locale } : {}),
-        status: 'published',
-      }),
-      findAllCollection<StrapiDestroyedEquipment>('destroyed-equipments', {
-        populate: HOME_PAGE_ANALYTICS_POPULATE,
-        sort: ['reportedAt:asc', 'sourceRecordId:asc'],
-      }).then((documents) => documents.map(mapDestroyedEquipment)),
-    ]);
-
-    return buildHomePageAnalytics({
-      activeConflicts,
-      blogPosts,
-      losses,
-    });
-  },
-  ['home-page-analytics'],
-  {
-    revalidate: HOME_PAGE_ANALYTICS_REVALIDATE_SECONDS,
-  },
-);
-
-const getCachedHeroStats = unstable_cache(
-  async (locale?: AppLocale): Promise<HomeHeroStats> => {
-    const today = new Date().toISOString().slice(0, 10);
-
-    const [activeConflicts, blogPosts, losses] = await Promise.all([
-      getCollectionCount('war-conflicts', {
-        filters: {
-          $or: [
-            {
-              endDate: {
-                $null: true,
-              },
-            },
-            {
-              endDate: {
-                $gte: today,
-              },
-            },
-          ],
-        },
-      }),
-      getCollectionCount('blog-posts', {
-        ...(locale ? { locale } : {}),
-        status: 'published',
-      }),
-      findAllCollection<StrapiDestroyedEquipment>('destroyed-equipments', {
-        sort: ['sourceRecordId:asc'],
-      }),
-    ]);
-
-    const verifiedLosses = losses.reduce((total, loss) => {
-      const quantity =
-        typeof loss.quantity === 'number' && loss.quantity > 0
-          ? loss.quantity
-          : 1;
-      return total + quantity;
-    }, 0);
-
-    return {
-      verifiedLosses,
-      activeConflicts,
-      blogPosts,
-    };
-  },
-  ['hero-stats'],
-  {
-    revalidate: HOME_PAGE_ANALYTICS_REVALIDATE_SECONDS,
-  },
-);
-
-const getCachedConflictAnalyticsSectionData = unstable_cache(
-  async (
-    requestedConflictSlug?: string,
-  ): Promise<ConflictAnalyticsSectionData> => {
-    const conflicts = await findAllCollection<StrapiWarConflict>(
-      'war-conflicts',
-      {
-        sort: ['startDate:desc', 'name:asc'],
+  const [activeConflicts, blogPosts, losses] = await Promise.all([
+    getCollectionCount('war-conflicts', {
+      filters: {
+        $or: [
+          { endDate: { $null: true } },
+          { endDate: { $gte: today } },
+        ],
       },
-    ).then((documents) => documents.map(mapWarConflict));
-
-    const selectedConflict = resolveSelectedConflict(
-      conflicts,
-      requestedConflictSlug,
-    );
-
-    if (!selectedConflict) {
-      return {
-        conflicts: [],
-        selectedConflict: null,
-        timeline: [],
-        categories: [],
-      };
-    }
-
-    const losses = await findAllCollection<StrapiDestroyedEquipment>(
-      'destroyed-equipments',
-      {
-        populate: HOME_PAGE_ANALYTICS_POPULATE,
-        sort: ['reportedAt:asc', 'sourceRecordId:asc'],
-        filters: {
-          warConflict: {
-            slug: {
-              $eq: selectedConflict.slug,
-            },
-          },
-        },
-      },
-    ).then((documents) => documents.map(mapDestroyedEquipment));
-
-    const lossAnalytics = buildLossAnalytics(losses);
-
-    return {
-      conflicts,
-      selectedConflict,
-      timeline: lossAnalytics.timeline,
-      categories: lossAnalytics.categories,
-    };
-  },
-  ['conflict-analytics-section'],
-  {
-    revalidate: HOME_PAGE_ANALYTICS_REVALIDATE_SECONDS,
-  },
-);
-
-const getCachedBlogPostsPreview = unstable_cache(
-  async (locale?: AppLocale) => {
-    const response = await findCollection<StrapiBlogPost>('blog-posts', {
+    }),
+    getCollectionCount('blog-posts', {
       ...(locale ? { locale } : {}),
-      populate: BLOG_POST_POPULATE,
-      sort: ['publishedAt:desc'],
-      pagination: { page: 1, pageSize: 3, withCount: true },
       status: 'published',
-    });
-    return {
-      posts: response.data.map(mapBlogPost),
-      total: response.meta.pagination?.total ?? 0,
-    };
-  },
-  ['blog-posts-preview'],
-  { revalidate: HOME_PAGE_ANALYTICS_REVALIDATE_SECONDS },
-);
+    }),
+    findAllCollection<StrapiDestroyedEquipment>('destroyed-equipments', {
+      sort: ['sourceRecordId:asc'],
+    }),
+  ]);
+
+  const verifiedLosses = losses.reduce((total, loss) => {
+    const quantity =
+      typeof loss.quantity === 'number' && loss.quantity > 0
+        ? loss.quantity
+        : 1;
+    return total + quantity;
+  }, 0);
+
+  return { verifiedLosses, activeConflicts, blogPosts };
+}
+
+export async function getHomePageAnalytics(
+  locale?: AppLocale,
+): Promise<HomePageAnalytics> {
+  const today = new Date().toISOString().slice(0, 10);
+
+  const [activeConflicts, blogPosts, losses] = await Promise.all([
+    getCollectionCount('war-conflicts', {
+      filters: {
+        $or: [
+          { endDate: { $null: true } },
+          { endDate: { $gte: today } },
+        ],
+      },
+    }),
+    getCollectionCount('blog-posts', {
+      ...(locale ? { locale } : {}),
+      status: 'published',
+    }),
+    findAllCollection<StrapiDestroyedEquipment>('destroyed-equipments', {
+      populate: HOME_PAGE_ANALYTICS_POPULATE,
+      sort: ['reportedAt:asc', 'sourceRecordId:asc'],
+    }).then((documents) => documents.map(mapDestroyedEquipment)),
+  ]);
+
+  const lossAnalytics = buildLossAnalytics(losses);
+
+  return {
+    heroStats: {
+      verifiedLosses: lossAnalytics.verifiedLosses,
+      activeConflicts,
+      blogPosts,
+    },
+    timeline: lossAnalytics.timeline,
+    categories: lossAnalytics.categories,
+  };
+}
+
+export async function getConflictAnalyticsSectionData(
+  requestedConflictSlug?: string,
+): Promise<ConflictAnalyticsSectionData> {
+  const conflicts = await findAllCollection<StrapiWarConflict>(
+    'war-conflicts',
+    { sort: ['startDate:desc', 'name:asc'] },
+  ).then((documents) => documents.map(mapWarConflict));
+
+  const selectedConflict = resolveSelectedConflict(conflicts, requestedConflictSlug);
+
+  if (!selectedConflict) {
+    return { conflicts: [], selectedConflict: null, timeline: [], categories: [] };
+  }
+
+  const losses = await findAllCollection<StrapiDestroyedEquipment>(
+    'destroyed-equipments',
+    {
+      populate: HOME_PAGE_ANALYTICS_POPULATE,
+      sort: ['reportedAt:asc', 'sourceRecordId:asc'],
+      filters: { warConflict: { slug: { $eq: selectedConflict.slug } } },
+    },
+  ).then((documents) => documents.map(mapDestroyedEquipment));
+
+  const lossAnalytics = buildLossAnalytics(losses);
+
+  return {
+    conflicts,
+    selectedConflict,
+    timeline: lossAnalytics.timeline,
+    categories: lossAnalytics.categories,
+  };
+}
 
 export async function getBlogPostsPreview(
   locale?: AppLocale,
 ): Promise<{ posts: BlogPost[]; total: number }> {
-  return getCachedBlogPostsPreview(locale);
+  const response = await findCollection<StrapiBlogPost>('blog-posts', {
+    ...(locale ? { locale } : {}),
+    populate: BLOG_POST_POPULATE,
+    sort: ['publishedAt:desc'],
+    pagination: { page: 1, pageSize: 3, withCount: true },
+    status: 'published',
+  });
+  return {
+    posts: response.data.map(mapBlogPost),
+    total: response.meta.pagination?.total ?? 0,
+  };
 }
-
-const getCachedRecentDestroyedEquipment = unstable_cache(
-  async (pageSize: number) => {
-    const response = await findCollection<StrapiDestroyedEquipment>(
-      'destroyed-equipments',
-      {
-        populate: DESTROYED_EQUIPMENT_POPULATE,
-        sort: ['reportedAt:desc', 'sourceRecordId:desc'],
-        pagination: { page: 1, pageSize },
-      },
-    );
-    return response.data.map(mapDestroyedEquipment);
-  },
-  ['recent-destroyed-equipment'],
-  { revalidate: HOME_PAGE_ANALYTICS_REVALIDATE_SECONDS },
-);
 
 export async function getBlogPosts(options?: {
   locale?: AppLocale;
@@ -512,11 +422,7 @@ export async function getBlogPosts(options?: {
     populate: BLOG_POST_POPULATE,
     filters: blogPostFilters(categorySlug, readTimeBucket),
     sort: ['publishedAt:desc'],
-    pagination: {
-      page,
-      pageSize,
-      withCount: true,
-    },
+    pagination: { page, pageSize, withCount: true },
     status: 'published',
   });
 
@@ -533,13 +439,8 @@ export async function getBlogPost(
   const response = await findCollection<StrapiBlogPost>('blog-posts', {
     ...(locale ? { locale } : {}),
     populate: BLOG_POST_POPULATE,
-    filters: {
-      slug: { $eq: slug },
-    },
-    pagination: {
-      page: 1,
-      pageSize: 1,
-    },
+    filters: { slug: { $eq: slug } },
+    pagination: { page: 1, pageSize: 1 },
     status: 'published',
   });
 
@@ -555,10 +456,7 @@ export async function getBlogPostCategories(
     {
       ...(locale ? { locale } : {}),
       sort: ['name:asc'],
-      pagination: {
-        page: 1,
-        pageSize: 100,
-      },
+      pagination: { page: 1, pageSize: 100 },
     },
   );
 
@@ -569,38 +467,26 @@ export async function getRecentDestroyedEquipment(options?: {
   pageSize?: number;
 }): Promise<DestroyedEquipment[]> {
   const { pageSize = 6 } = options ?? {};
-  return getCachedRecentDestroyedEquipment(pageSize);
-}
 
-export async function getHomePageAnalytics(
-  locale?: AppLocale,
-): Promise<HomePageAnalytics> {
-  return getCachedHomePageAnalytics(locale);
-}
-
-export async function getConflictAnalyticsSectionData(
-  requestedConflictSlug?: string,
-): Promise<ConflictAnalyticsSectionData> {
-  return getCachedConflictAnalyticsSectionData(requestedConflictSlug);
-}
-
-export async function getHeroStats(locale?: AppLocale): Promise<HomeHeroStats> {
-  return getCachedHeroStats(locale);
-}
-
-const MAP_EQUIPMENT_POPULATE = {
-  country: true,
-  destroyedBy: true,
-  equipment: {
-    populate: {
-      originCountry: true,
-      type: true,
+  const response = await findCollection<StrapiDestroyedEquipment>(
+    'destroyed-equipments',
+    {
+      populate: DESTROYED_EQUIPMENT_POPULATE,
+      sort: ['reportedAt:desc', 'sourceRecordId:desc'],
+      pagination: { page: 1, pageSize },
     },
-  },
-  region: true,
-  status: true,
-  warConflict: true,
-} as const;
+  );
+
+  return response.data.map(mapDestroyedEquipment);
+}
+
+export async function getWarConflicts(): Promise<WarConflict[]> {
+  const conflicts = await findAllCollection<StrapiWarConflict>(
+    'war-conflicts',
+    { sort: ['startDate:desc', 'name:asc'] },
+  );
+  return conflicts.map(mapWarConflict);
+}
 
 export interface MapDataOptions {
   conflictSlug: string;
@@ -617,19 +503,8 @@ export interface MapData {
   availableStatuses: Array<{ name: string; slug: string }>;
 }
 
-export async function getWarConflicts(): Promise<WarConflict[]> {
-  const conflicts = await findAllCollection<StrapiWarConflict>(
-    'war-conflicts',
-    {
-      sort: ['startDate:desc', 'name:asc'],
-    },
-  );
-  return conflicts.map(mapWarConflict);
-}
-
 export async function getMapData(options: MapDataOptions): Promise<MapData> {
-  const { conflictSlug, equipmentTypeSlugs, countrySlugs, statusSlugs } =
-    options;
+  const { conflictSlug, equipmentTypeSlugs, countrySlugs, statusSlugs } = options;
 
   const equipmentFilters: Record<string, unknown> = {
     warConflict: { slug: { $eq: conflictSlug } },
@@ -638,9 +513,7 @@ export async function getMapData(options: MapDataOptions): Promise<MapData> {
   };
 
   if (equipmentTypeSlugs?.length) {
-    equipmentFilters.equipment = {
-      type: { slug: { $in: equipmentTypeSlugs } },
-    };
+    equipmentFilters.equipment = { type: { slug: { $in: equipmentTypeSlugs } } };
   }
 
   if (countrySlugs?.length) {
@@ -651,6 +524,15 @@ export async function getMapData(options: MapDataOptions): Promise<MapData> {
     equipmentFilters.status = { slug: { $in: statusSlugs } };
   }
 
+  const MAP_EQUIPMENT_POPULATE = {
+    country: true,
+    destroyedBy: true,
+    equipment: { populate: { originCountry: true, type: true } },
+    region: true,
+    status: true,
+    warConflict: true,
+  } as const;
+
   const [allEquipment, events] = await Promise.all([
     findAllCollection<StrapiDestroyedEquipment>('destroyed-equipments', {
       populate: MAP_EQUIPMENT_POPULATE,
@@ -659,55 +541,33 @@ export async function getMapData(options: MapDataOptions): Promise<MapData> {
     }).then((docs) => docs.map(mapDestroyedEquipment)),
     findAllCollection<StrapiConflictEvent>('conflict-events', {
       populate: { warConflict: true },
-      filters: {
-        warConflict: { slug: { $eq: conflictSlug } },
-      },
+      filters: { warConflict: { slug: { $eq: conflictSlug } } },
       sort: ['date:desc'],
     }).then((docs) => docs.map(mapConflictEvent)),
   ]);
 
-  // Derive available filter options from returned equipment
   const typeMap = new Map<string, { name: string; slug: string }>();
-  const countryMap = new Map<
-    string,
-    { name: string; slug: string; code: string }
-  >();
+  const countryMap = new Map<string, { name: string; slug: string; code: string }>();
   const statusMap = new Map<string, { name: string; slug: string }>();
 
   for (const eq of allEquipment) {
     if (eq.equipment?.type) {
-      typeMap.set(eq.equipment.type.slug, {
-        name: eq.equipment.type.name,
-        slug: eq.equipment.type.slug,
-      });
+      typeMap.set(eq.equipment.type.slug, { name: eq.equipment.type.name, slug: eq.equipment.type.slug });
     }
     if (eq.country) {
-      countryMap.set(eq.country.slug, {
-        name: eq.country.name,
-        slug: eq.country.slug,
-        code: eq.country.code,
-      });
+      countryMap.set(eq.country.slug, { name: eq.country.name, slug: eq.country.slug, code: eq.country.code });
     }
     if (eq.status) {
-      statusMap.set(eq.status.slug, {
-        name: eq.status.name,
-        slug: eq.status.slug,
-      });
+      statusMap.set(eq.status.slug, { name: eq.status.name, slug: eq.status.slug });
     }
   }
 
   return {
     equipment: allEquipment,
     events,
-    availableEquipmentTypes: Array.from(typeMap.values()).sort((a, b) =>
-      a.name.localeCompare(b.name),
-    ),
-    availableCountries: Array.from(countryMap.values()).sort((a, b) =>
-      a.name.localeCompare(b.name),
-    ),
-    availableStatuses: Array.from(statusMap.values()).sort((a, b) =>
-      a.name.localeCompare(b.name),
-    ),
+    availableEquipmentTypes: Array.from(typeMap.values()).sort((a, b) => a.name.localeCompare(b.name)),
+    availableCountries: Array.from(countryMap.values()).sort((a, b) => a.name.localeCompare(b.name)),
+    availableStatuses: Array.from(statusMap.values()).sort((a, b) => a.name.localeCompare(b.name)),
   };
 }
 
@@ -725,77 +585,66 @@ export interface AnalyticsLossesOptions {
   dateTo?: string;
 }
 
-const getCachedAnalyticsPageData = unstable_cache(
-  async (requestedConflictSlug?: string): Promise<AnalyticsPageData> => {
-    const [conflicts, allEquipmentTypes] = await Promise.all([
-      findAllCollection<StrapiWarConflict>('war-conflicts', {
-        sort: ['startDate:desc', 'name:asc'],
-      }).then((docs) => docs.map(mapWarConflict)),
-      findAllCollection<StrapiEquipmentType>('equipment-types', {
-        populate: { previewSvg: true },
-        sort: ['name:asc'],
-      }).then((docs) => docs.map(mapEquipmentType)),
-    ]);
-
-    const selectedConflict = resolveSelectedConflict(conflicts, requestedConflictSlug);
-
-    if (!selectedConflict) {
-      return {
-        conflicts,
-        selectedConflict: null,
-        timeline: [],
-        categories: [],
-        tiles: [],
-        total: 0,
-        totalByStatus: createEmptyStatusTotals(),
-      };
-    }
-
-    const losses = await findAllCollection<StrapiDestroyedEquipment>(
-      'destroyed-equipments',
-      {
-        populate: HOME_PAGE_ANALYTICS_POPULATE,
-        sort: ['reportedAt:asc', 'sourceRecordId:asc'],
-        filters: {
-          warConflict: { slug: { $eq: selectedConflict.slug } },
-        },
-      },
-    ).then((docs) => docs.map(mapDestroyedEquipment));
-
-    const lossAnalytics = buildLossAnalytics(losses, Infinity);
-
-    const svgBySlug = new Map(allEquipmentTypes.map((t) => [t.slug, t.previewSvgUrl]));
-    const tiles: AnalyticsEquipmentTile[] = lossAnalytics.categories.map((cat) => ({
-      ...cat,
-      previewSvgUrl: svgBySlug.get(cat.slug) ?? null,
-    }));
-
-    const totalByStatus = createEmptyStatusTotals();
-    for (const loss of losses) {
-      const statusKey = asTrackedStatusKey(loss.status?.slug);
-      const quantity =
-        Number.isFinite(loss.quantity) && loss.quantity > 0 ? loss.quantity : 1;
-      if (statusKey) totalByStatus[statusKey] += quantity;
-    }
-
-    return {
-      conflicts,
-      selectedConflict,
-      timeline: lossAnalytics.timeline,
-      categories: lossAnalytics.categories,
-      tiles,
-      total: lossAnalytics.verifiedLosses,
-      totalByStatus,
-    };
-  },
-  ['analytics-page-data'],
-  { revalidate: HOME_PAGE_ANALYTICS_REVALIDATE_SECONDS },
-);
-
 export async function getAnalyticsPageData(
   requestedConflictSlug?: string,
 ): Promise<AnalyticsPageData> {
-  return getCachedAnalyticsPageData(requestedConflictSlug);
+  const [conflicts, allEquipmentTypes] = await Promise.all([
+    findAllCollection<StrapiWarConflict>('war-conflicts', {
+      sort: ['startDate:desc', 'name:asc'],
+    }).then((docs) => docs.map(mapWarConflict)),
+    findAllCollection<StrapiEquipmentType>('equipment-types', {
+      populate: { previewSvg: true },
+      sort: ['name:asc'],
+    }).then((docs) => docs.map(mapEquipmentType)),
+  ]);
+
+  const selectedConflict = resolveSelectedConflict(conflicts, requestedConflictSlug);
+
+  if (!selectedConflict) {
+    return {
+      conflicts,
+      selectedConflict: null,
+      timeline: [],
+      categories: [],
+      tiles: [],
+      total: 0,
+      totalByStatus: createEmptyStatusTotals(),
+    };
+  }
+
+  const losses = await findAllCollection<StrapiDestroyedEquipment>(
+    'destroyed-equipments',
+    {
+      populate: HOME_PAGE_ANALYTICS_POPULATE,
+      sort: ['reportedAt:asc', 'sourceRecordId:asc'],
+      filters: { warConflict: { slug: { $eq: selectedConflict.slug } } },
+    },
+  ).then((docs) => docs.map(mapDestroyedEquipment));
+
+  const lossAnalytics = buildLossAnalytics(losses, Infinity);
+
+  const svgBySlug = new Map(allEquipmentTypes.map((t) => [t.slug, t.previewSvgUrl]));
+  const tiles: AnalyticsEquipmentTile[] = lossAnalytics.categories.map((cat) => ({
+    ...cat,
+    previewSvgUrl: svgBySlug.get(cat.slug) ?? null,
+  }));
+
+  const totalByStatus = createEmptyStatusTotals();
+  for (const loss of losses) {
+    const statusKey = asTrackedStatusKey(loss.status?.slug);
+    const quantity = Number.isFinite(loss.quantity) && loss.quantity > 0 ? loss.quantity : 1;
+    if (statusKey) totalByStatus[statusKey] += quantity;
+  }
+
+  return {
+    conflicts,
+    selectedConflict,
+    timeline: lossAnalytics.timeline,
+    categories: lossAnalytics.categories,
+    tiles,
+    total: lossAnalytics.verifiedLosses,
+    totalByStatus,
+  };
 }
 
 export async function getAnalyticsLosses(
@@ -819,26 +668,16 @@ export async function getAnalyticsLosses(
     warConflict: { slug: { $eq: conflictSlug } },
   };
 
-  if (statusSlug) {
-    filters.status = { slug: { $eq: statusSlug } };
-  }
+  if (statusSlug) filters.status = { slug: { $eq: statusSlug } };
 
   const equipmentFilter: Record<string, unknown> = {};
   if (equipmentTypeSlug) equipmentFilter.type = { slug: { $eq: equipmentTypeSlug } };
   if (model) equipmentFilter.name = { $containsi: model };
   if (Object.keys(equipmentFilter).length > 0) filters.equipment = equipmentFilter;
 
-  if (countrySlug) {
-    filters.country = { slug: { $eq: countrySlug } };
-  }
-
-  if (inscription) {
-    filters.equipmentLabel = { $containsi: inscription };
-  }
-
-  if (regionSlug) {
-    filters.region = { slug: { $eq: regionSlug } };
-  }
+  if (countrySlug) filters.country = { slug: { $eq: countrySlug } };
+  if (inscription) filters.equipmentLabel = { $containsi: inscription };
+  if (regionSlug) filters.region = { slug: { $eq: regionSlug } };
 
   const dateFilter: Record<string, string> = {};
   if (dateFrom) dateFilter.$gte = dateFrom;
@@ -877,51 +716,35 @@ export async function getLossById(
   return loss ? mapDestroyedEquipment(loss) : null;
 }
 
-const getCachedRegions = unstable_cache(
-  async (): Promise<Array<{ name: string; slug: string }>> => {
-    const docs = await findAllCollection<{
-      id: number;
-      documentId: string;
-      name?: string | null;
-      slug?: string | null;
-    }>('regions', {
-      sort: ['name:asc'],
-    });
-    return docs
-      .map((e) => ({ name: e.name ?? '', slug: e.slug ?? '' }))
-      .filter((e) => e.name && e.slug);
-  },
-  ['regions'],
-  { revalidate: HOME_PAGE_ANALYTICS_REVALIDATE_SECONDS },
-);
-
 export async function getRegions(): Promise<Array<{ name: string; slug: string }>> {
-  return getCachedRegions();
-}
+  const docs = await findAllCollection<{
+    id: number;
+    documentId: string;
+    name?: string | null;
+    slug?: string | null;
+  }>('regions', { sort: ['name:asc'] });
 
-const getCachedEquipmentList = unstable_cache(
-  async (typeSlug?: string): Promise<Array<{ name: string; slug: string }>> => {
-    const docs = await findAllCollection<{
-      id: number;
-      documentId: string;
-      name?: string | null;
-      slug?: string | null;
-    }>('equipments', {
-      sort: ['name:asc'],
-      ...(typeSlug ? { filters: { type: { slug: { $eq: typeSlug } } } } : {}),
-    });
-    return docs
-      .map((e) => ({ name: e.name ?? '', slug: e.slug ?? '' }))
-      .filter((e) => e.name && e.slug);
-  },
-  ['equipment-list'],
-  { revalidate: HOME_PAGE_ANALYTICS_REVALIDATE_SECONDS },
-);
+  return docs
+    .map((e) => ({ name: e.name ?? '', slug: e.slug ?? '' }))
+    .filter((e) => e.name && e.slug);
+}
 
 export async function getEquipmentList(
   typeSlug?: string,
 ): Promise<Array<{ name: string; slug: string }>> {
-  return getCachedEquipmentList(typeSlug);
+  const docs = await findAllCollection<{
+    id: number;
+    documentId: string;
+    name?: string | null;
+    slug?: string | null;
+  }>('equipments', {
+    sort: ['name:asc'],
+    ...(typeSlug ? { filters: { type: { slug: { $eq: typeSlug } } } } : {}),
+  });
+
+  return docs
+    .map((e) => ({ name: e.name ?? '', slug: e.slug ?? '' }))
+    .filter((e) => e.name && e.slug);
 }
 
 export type {
