@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { withLocale } from '@/lib/with-locale';
 import { getBlogPosts } from '@/lib/strapi';
+import type { AppLocale } from '@/i18n/routing';
 import { CategoryBarChart } from '@/components/charts/category-bar-chart';
 import { TimelineChart } from '@/components/charts/timeline-chart';
 import { HeroSection } from '@/components/landing/hero-section';
@@ -170,10 +171,16 @@ const mockCategories = [
   },
 ];
 
-export default withLocale(async function HomePage() {
+export default withLocale(async function HomePage({
+  locale,
+}: {
+  locale: string;
+}) {
   const charts = await getTranslations('Charts');
-  const { posts } = await getBlogPosts({ pageSize: 3 }).catch((error) => {
-    console.log(error);
+  const { posts } = await getBlogPosts({
+    locale: locale as AppLocale,
+    pageSize: 3,
+  }).catch(() => {
     return {
       posts: [],
     };

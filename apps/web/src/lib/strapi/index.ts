@@ -1,4 +1,5 @@
 import type { API } from '@strapi/client';
+import type { AppLocale } from '@/i18n/routing';
 import { strapiClient } from './client';
 import { mapBlogPost, mapBlogPostCategory } from './mappers';
 import type {
@@ -53,14 +54,22 @@ async function findCollection<TDocument>(
 }
 
 export async function getBlogPosts(options?: {
+  locale?: AppLocale;
   page?: number;
   pageSize?: number;
   categorySlug?: string;
   readTimeBucket?: ReadTimeBucket;
 }): Promise<{ posts: BlogPost[]; total: number }> {
-  const { page = 1, pageSize = 10, categorySlug, readTimeBucket } = options ?? {};
+  const {
+    locale,
+    page = 1,
+    pageSize = 10,
+    categorySlug,
+    readTimeBucket,
+  } = options ?? {};
 
   const response = await findCollection<StrapiBlogPost>('blog-posts', {
+    ...(locale ? { locale } : {}),
     populate: BLOG_POST_POPULATE,
     filters: blogPostFilters(categorySlug, readTimeBucket),
     sort: ['publishedAt:desc'],
@@ -78,8 +87,12 @@ export async function getBlogPosts(options?: {
   };
 }
 
-export async function getBlogPost(slug: string): Promise<BlogPost | null> {
+export async function getBlogPost(
+  slug: string,
+  locale?: AppLocale
+): Promise<BlogPost | null> {
   const response = await findCollection<StrapiBlogPost>('blog-posts', {
+    ...(locale ? { locale } : {}),
     populate: BLOG_POST_POPULATE,
     filters: {
       slug: { $eq: slug },
@@ -95,10 +108,13 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   return post ? mapBlogPost(post) : null;
 }
 
-export async function getBlogPostCategories(): Promise<BlogPostCategory[]> {
+export async function getBlogPostCategories(
+  locale?: AppLocale
+): Promise<BlogPostCategory[]> {
   const response = await findCollection<StrapiBlogPostCategory>(
     'blog-post-categories',
     {
+      ...(locale ? { locale } : {}),
       sort: ['name:asc'],
       pagination: {
         page: 1,

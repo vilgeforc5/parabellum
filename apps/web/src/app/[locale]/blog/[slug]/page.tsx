@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation';
-import { setRequestLocale, getTranslations } from 'next-intl/server';
-import { Calendar, Clock, ArrowLeft, User } from 'lucide-react';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from '@/i18n/navigation';
+import type { AppLocale } from '@/i18n/routing';
 import { BlocksRenderer } from '@/components/blog/blocks-renderer';
 import { getBlogPost } from '@/lib/strapi';
 
@@ -17,13 +18,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   const t = await getTranslations('BlogPage');
 
-  const post = await getBlogPost(slug).catch(() => null);
+  const post = await getBlogPost(slug, locale as AppLocale).catch(() => null);
   if (!post) notFound();
 
   return (
     <article className="mx-auto w-full max-w-3xl py-10">
       <div className="mb-8">
-        <Button variant="ghost" asChild className="-ml-3 gap-2 text-muted-foreground">
+        <Button
+          variant="ghost"
+          asChild
+          className="-ml-3 gap-2 text-muted-foreground"
+        >
           <Link href="/blog">
             <ArrowLeft className="h-4 w-4" />
             {t('backToBlog')}
@@ -61,7 +66,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {post.excerpt}
         </p>
 
-        <div className="flex flex-wrap items-center gap-5 text-sm text-muted-foreground border-t border-border pt-4">
+        <div className="flex flex-wrap items-center gap-5 text-sm text-muted-foreground">
           {post.author && (
             <span className="flex items-center gap-1.5">
               <User className="h-4 w-4" />
@@ -87,7 +92,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
       </header>
 
-      <div className="border-t border-border pt-8">
+      <div className="pt-8">
         <BlocksRenderer content={post.content} />
       </div>
     </article>

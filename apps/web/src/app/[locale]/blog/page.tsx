@@ -4,6 +4,7 @@ import { Calendar, Clock, Tag } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Link } from '@/i18n/navigation';
+import type { AppLocale } from '@/i18n/routing';
 import { BlogFilters } from '@/components/blog/blog-filters';
 import {
   getBlogPosts,
@@ -31,11 +32,12 @@ export default async function BlogPage({ params, searchParams }: BlogPageProps) 
 
   const [{ posts }, categories] = await Promise.all([
     getBlogPosts({
+      locale: locale as AppLocale,
       pageSize: 20,
       categorySlug: category,
       readTimeBucket: validReadTime,
     }).catch(() => ({ posts: [] })),
-    getBlogPostCategories().catch(() => []),
+    getBlogPostCategories(locale as AppLocale).catch(() => []),
   ]);
 
   return (

@@ -26,6 +26,8 @@ interface BlogPreviewProps {
 export function BlogPreview({ posts }: BlogPreviewProps) {
   const t = useTranslations('Blog');
 
+  if (!posts || !posts.length) return null;
+
   return (
     <section className="py-16">
       <motion.div
