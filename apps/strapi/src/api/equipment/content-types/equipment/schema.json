@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "equipments",
+  "info": {
+    "singularName": "equipment",
+    "pluralName": "equipments",
+    "displayName": "Equipment"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true,
+      "unique": true
+    },
+    "originCountry": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::country.country",
+      "inversedBy": "originEquipments"
+    },
+    "type": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::equipment-type.equipment-type",
+      "inversedBy": "equipments"
+    },
+    "destroyedEquipments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::destroyed-equipment.destroyed-equipment",
+      "mappedBy": "equipment"
+    }
+  }
+}
