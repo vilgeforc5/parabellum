@@ -13,7 +13,6 @@ import { PlatformCards } from '@/components/landing/platform-cards';
 import { BlogPreview } from '@/components/landing/blog-preview';
 import { RecentLosses } from '@/components/landing/recent-losses';
 
-export const revalidate = 300;
 
 export default withLocale(async function HomePage({
   locale,

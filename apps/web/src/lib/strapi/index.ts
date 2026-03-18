@@ -102,9 +102,14 @@ async function findCollection<TDocument>(
   resource: string,
   query?: API.BaseQueryParams,
 ): Promise<CollectionResponse<TDocument>> {
-  return (await strapiClient
-    .collection(resource)
-    .find(query)) as CollectionResponse<TDocument>;
+  try {
+    return (await strapiClient
+      .collection(resource)
+      .find(query)) as CollectionResponse<TDocument>;
+  } catch (error) {
+    console.error(`[strapi] findCollection(${resource}) failed:`, error);
+    throw error;
+  }
 }
 
 async function getCollectionCount(

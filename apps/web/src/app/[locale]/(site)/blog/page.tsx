@@ -16,6 +16,8 @@ interface BlogPageProps {
   searchParams: Promise<{ category?: string; readTime?: string }>;
 }
 
+export const revalidate = 300;
+
 export default async function BlogPage({
   params,
   searchParams,

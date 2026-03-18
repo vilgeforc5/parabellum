@@ -4,12 +4,25 @@ import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from '@/i18n/navigation';
-import type { AppLocale } from '@/i18n/routing';
+import { routing, type AppLocale } from '@/i18n/routing';
 import { BlocksRenderer } from '@/components/blog/blocks-renderer';
-import { getBlogPost } from '@/lib/strapi';
+import { getBlogPost, getBlogPosts } from '@/lib/strapi';
 
 interface BlogPostPageProps {
   params: Promise<{ locale: string; slug: string }>;
+}
+
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  const results = await Promise.all(
+    routing.locales.map((locale) =>
+      getBlogPosts({ locale, pageSize: 1000 }).then(({ posts }) =>
+        posts.map((post) => ({ locale, slug: post.slug })),
+      ),
+    ),
+  );
+  return results.flat();
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
