@@ -45,10 +45,20 @@ function setDrawerCookie(open: boolean) {
 type MapPageClientProps = {
   conflicts: WarConflict[];
   defaultDrawerOpen: boolean;
+  initialConflictSlug?: string;
+  initialCenter?: { lat: number; lng: number };
 };
 
-export function MapPageClient({ conflicts, defaultDrawerOpen }: MapPageClientProps) {
+export function MapPageClient({
+  conflicts,
+  defaultDrawerOpen,
+  initialConflictSlug,
+  initialCenter,
+}: MapPageClientProps) {
   const defaultSlug =
+    (initialConflictSlug
+      ? conflicts.find((c) => c.slug === initialConflictSlug)?.slug
+      : undefined) ??
     conflicts.find((c) => c.slug === DEFAULT_CONFLICT_SLUG)?.slug ??
     conflicts[0]?.slug ??
     '';
@@ -154,6 +164,9 @@ export function MapPageClient({ conflicts, defaultDrawerOpen }: MapPageClientPro
         events={mapData?.events ?? []}
         showEquipment={showEquipment}
         showEvents={showEvents}
+        {...(initialCenter
+          ? { centerLat: initialCenter.lat, centerLng: initialCenter.lng, zoom: 12 }
+          : {})}
       />
 
       {/* Open button — only shown when drawer is closed */}

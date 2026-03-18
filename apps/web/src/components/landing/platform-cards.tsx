@@ -106,9 +106,11 @@ export function PlatformCards() {
                     {t(`${key}.description`)}
                   </p>
                 </div>
-                <div className="mt-4 text-xs font-medium text-muted-foreground/60 uppercase tracking-wider">
-                  {t(`${key}.tag`)}
-                </div>
+                {t.has(`${key}.tag`) && t(`${key}.tag`).trim() ? (
+                  <div className="mt-4 text-xs font-medium text-muted-foreground/60 uppercase tracking-wider">
+                    {t(`${key}.tag`)}
+                  </div>
+                ) : null}
               </CardContent>
             </Card>
           </motion.div>

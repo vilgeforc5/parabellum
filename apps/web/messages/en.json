@@ -52,64 +52,64 @@
   },
   "Features": {
     "sectionTitle": "Platform Capabilities",
-    "sectionDescription": "Powerful tools for conflict monitoring and military equipment analysis",
+    "sectionDescription": "Working tools for browsing loss records, filtering datasets, and exploring conflict data",
     "liveTracking": {
-      "title": "Live Loss Tracking",
-      "description": "Real-time feed of verified military equipment losses with status updates, photographic evidence, and source attribution."
+      "title": "Recent Loss Records",
+      "description": "The homepage highlights the latest confirmed entries and links straight to detailed loss records with status, region, date, and map context."
     },
     "interactiveMaps": {
       "title": "Interactive Conflict Maps",
-      "description": "Geospatial visualization of equipment losses pinpointed to exact coordinates with satellite imagery overlay."
+      "description": "A full-screen map combines equipment losses and conflict events, with filters by conflict, status, equipment type, and country."
     },
     "deepAnalytics": {
       "title": "Deep Analytics",
-      "description": "Trend analysis, category breakdowns, and time-series charts revealing patterns in equipment attrition across conflicts."
+      "description": "Analytics pages surface totals, status breakdowns, category charts, cumulative views, and conflict-specific timelines."
     },
     "advancedSearch": {
       "title": "Advanced Search & Filters",
-      "description": "Filter losses by equipment type, country, conflict, status, date range, and verification level with instant results."
+      "description": "The losses table can be narrowed by status, equipment type, model, inscription, region, conflict, and date range."
     },
     "verifiedData": {
-      "title": "Verified & Sourced Data",
-      "description": "Every entry is cross-referenced with multiple OSINT sources, photo/video evidence, and community verification."
+      "title": "Structured Loss Records",
+      "description": "Each record is stored with normalized fields such as equipment, country, conflict, status, source record ID, and coordinates when available."
     },
     "categoryBreakdown": {
       "title": "Category Breakdown",
-      "description": "Detailed classification from MBTs and IFVs to UAVs and SAM systems with model-level specificity."
+      "description": "Equipment types are grouped into visual tiles and charts, making it easier to compare categories and spot dominant loss patterns."
     }
   },
   "Platform": {
     "sectionTitle": "What's Inside",
-    "sectionDescription": "A comprehensive toolkit for conflict analysts, researchers, and journalists",
+    "sectionDescription": "The main parts of the product that are already available in the current build",
     "lossPages": {
-      "title": "Individual Loss Pages",
-      "description": "Detailed page for every confirmed loss — photos, geolocation, equipment specs, and verification status.",
-      "tag": "Coming Soon"
+      "title": "Loss Record Pages",
+      "description": "Open a separate page for each entry with equipment details, status, date, region, source record number, and a direct jump to the map.",
+      "tag": "Available Now"
     },
     "searchFilters": {
       "title": "Search & Filters",
-      "description": "Powerful search with multi-dimensional filtering by type, country, conflict zone, date, and verification status.",
-      "tag": "Coming Soon"
+      "description": "Filter the analytics table by status, type, model, inscription, region, conflict, and date to narrow large datasets quickly.",
+      "tag": "Available Now"
     },
     "analyticsBlog": {
       "title": "Analytics Blog",
-      "description": "Expert analysis posts covering conflict trends, equipment effectiveness, and strategic assessments.",
-      "tag": "Coming Soon"
+      "description": "The blog already supports published posts, category filters, read-time filters, and dedicated article pages.",
+      "tag": "Available Now"
     },
     "conflictMaps": {
       "title": "Conflict Maps",
-      "description": "Interactive maps with heatmaps, cluster markers, and timeline playback of equipment loss events.",
-      "tag": "Coming Soon"
+      "description": "The map view shows equipment losses and events on separate layers, with a conflict switcher and sidebar filters.",
+      "tag": "Available Now"
     },
     "dashboards": {
-      "title": "Analytics Dashboards",
-      "description": "Customizable dashboards with charts, comparison tables, and exportable reports for research purposes.",
-      "tag": "In Development"
+      "title": "Analytics Dashboard",
+      "description": "The analytics section combines summary totals, equipment-type tiles, a paginated losses table, and chart drill-downs.",
+      "tag": "Available Now"
     },
     "trends": {
       "title": "Trend Analysis",
-      "description": "Historical trend lines, seasonal patterns, and predictive indicators based on verified loss data.",
-      "tag": "In Development"
+      "description": "Timeline, cumulative, category, and status charts help compare how losses change across conflicts and over time.",
+      "tag": "Available Now"
     }
   },
   "Blog": {
@@ -172,6 +172,59 @@
     "noPostsHint": "Try adjusting your filters or check back later.",
     "readTime": "{minutes} min read",
     "backToBlog": "Back to Blog"
+  },
+  "AnalyticsPage": {
+    "title": "Analytics",
+    "description": "Equipment loss statistics across armed conflicts",
+    "conflictLabel": "Conflict",
+    "conflictPlaceholder": "Select conflict",
+    "totalLost": "Total Lost",
+    "destroyed": "Destroyed",
+    "captured": "Captured",
+    "abandoned": "Abandoned",
+    "damaged": "Damaged",
+    "allStatuses": "All",
+    "lossesTableTitle": "Equipment Losses",
+    "filterType": "Equipment type",
+    "filterModel": "Model",
+    "filterInscription": "Number / Inscription",
+    "filterRegion": "Region",
+    "filterDateFrom": "Date from",
+    "filterDateTo": "Date to",
+    "filterReset": "Reset",
+    "filterSearch": "Search",
+    "columnMedia": "Media",
+    "columnLoss": "Loss",
+    "columnLostBy": "Lost by",
+    "columnLocation": "Location",
+    "columnDate": "Date",
+    "noLosses": "No losses found",
+    "noLossesHint": "Try adjusting your filters.",
+    "viewOnMap": "View on map",
+    "prevPage": "Previous",
+    "nextPage": "Next",
+    "perPage": "Per page",
+    "lostLabel": "lost",
+    "damagedLabel": "damaged",
+    "lossDetailTitle": "Loss Record",
+    "lossDetailEquipment": "Equipment",
+    "lossDetailCountry": "Country",
+    "lossDetailStatus": "Status",
+    "lossDetailDate": "Date",
+    "lossDetailLocation": "Location",
+    "lossDetailConflict": "Conflict",
+    "lossDetailDestroyedBy": "Destroyed by",
+    "lossDetailMedia": "Photos & Videos",
+    "lossDetailMediaPlaceholder": "Media evidence will be displayed here once uploaded.",
+    "lossDetailSourceRecord": "Record #",
+    "backToAnalytics": "Back to Analytics",
+    "backToCharts": "Back to Analytics",
+    "viewCharts": "Charts",
+    "chartsTitle": "Conflict Analytics",
+    "timelineTitle": "Losses Over Time",
+    "categoryTitle": "Losses by Equipment Category",
+    "statusDistributionTitle": "Loss Status Distribution",
+    "cumulativeTitle": "Cumulative Losses"
   },
   "NotFoundPage": {
     "title": "Sorry, you are here by mistake.",

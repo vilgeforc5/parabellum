@@ -214,6 +214,29 @@ export interface ConflictAnalyticsSectionData {
   categories: HomeCategoryStats[];
 }
 
+export interface AnalyticsEquipmentTile {
+  name: string;
+  slug: string;
+  previewSvgUrl: string | null;
+  count: number;
+  byStatus: Record<LossStatusKey, number>;
+}
+
+export interface AnalyticsPageData {
+  conflicts: WarConflict[];
+  selectedConflict: WarConflict | null;
+  timeline: HomeTimelinePoint[];
+  categories: HomeCategoryStats[];
+  tiles: AnalyticsEquipmentTile[];
+  total: number;
+  totalByStatus: Record<LossStatusKey, number>;
+}
+
+export interface AnalyticsLossesResult {
+  losses: DestroyedEquipment[];
+  total: number;
+}
+
 export interface DestroyedEquipment {
   id: number;
   documentId: string;

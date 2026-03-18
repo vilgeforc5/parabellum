@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { StatusBadge } from '@/components/status-badge';
+import { Link } from '@/i18n/navigation';
 import type { DestroyedEquipment } from '@/lib/strapi';
 
 interface RecentLossesProps {
@@ -76,6 +77,7 @@ export function RecentLosses({ losses }: RecentLossesProps) {
       >
         {losses.map((loss) => (
           <motion.div key={loss.id} variants={itemVariants}>
+            <Link href={`/analytics/${loss.documentId}`} className="block">
             <Card className="group border-border/50 bg-card/50 backdrop-blur-sm transition-all hover:border-border hover:bg-card/80 cursor-pointer">
               <div className="relative h-36 overflow-hidden rounded-t-xl bg-gradient-to-br from-secondary to-background">
                 <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.02)_25%,rgba(255,255,255,0.02)_50%,transparent_50%,transparent_75%,rgba(255,255,255,0.02)_75%)] bg-[length:4px_4px]" />
@@ -126,6 +128,7 @@ export function RecentLosses({ losses }: RecentLossesProps) {
                 </div>
               </CardContent>
             </Card>
+            </Link>
           </motion.div>
         ))}
       </motion.div>
