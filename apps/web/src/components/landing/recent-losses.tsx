@@ -5,13 +5,12 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { StatusBadge } from '@/components/status-badge';
-import type { LossStatus } from '@parabellum/contracts';
 
 interface MockLoss {
   id: number;
   name: string;
   category: string;
-  status: LossStatus;
+  status: string;
   country: string;
   date: string;
 }

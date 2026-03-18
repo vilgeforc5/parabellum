@@ -1,0 +1,18 @@
+{
+  "name": "strapi",
+  "root": "apps/strapi",
+  "targets": {
+    "dev": {
+      "command": "pnpm dev",
+      "options": {
+        "cwd": "apps/strapi"
+      }
+    },
+    "build": {
+      "command": "pnpm build",
+      "options": {
+        "cwd": "apps/strapi"
+      }
+    }
+  }
+}

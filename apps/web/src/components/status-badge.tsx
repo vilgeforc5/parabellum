@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import type { LossStatus } from '@parabellum/contracts';
+type LossStatus = string;
 
 const statusConfig: Record<LossStatus, { label: string; className: string }> = {
   destroyed: {

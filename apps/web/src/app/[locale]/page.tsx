@@ -1,9 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { withLocale } from '@/lib/with-locale';
-import type {
-  CategoryBreakdown,
-  TimelineDataPoint,
-} from '@parabellum/contracts';
+import { getBlogPosts } from '@/lib/strapi';
 import { CategoryBarChart } from '@/components/charts/category-bar-chart';
 import { TimelineChart } from '@/components/charts/timeline-chart';
 import { HeroSection } from '@/components/landing/hero-section';
@@ -12,7 +9,7 @@ import { PlatformCards } from '@/components/landing/platform-cards';
 import { BlogPreview } from '@/components/landing/blog-preview';
 import { RecentLosses } from '@/components/landing/recent-losses';
 
-const mockTimeline: TimelineDataPoint[] = [
+const mockTimeline = [
   {
     date: '2024-01',
     count: 142,
@@ -79,7 +76,7 @@ const mockTimeline: TimelineDataPoint[] = [
   },
 ];
 
-const mockCategories: CategoryBreakdown[] = [
+const mockCategories = [
   {
     category: {
       id: 1,
@@ -175,12 +172,17 @@ const mockCategories: CategoryBreakdown[] = [
 
 export default withLocale(async function HomePage() {
   const charts = await getTranslations('Charts');
+  const { posts } = await getBlogPosts({ pageSize: 3 }).catch((error) => {
+    return {
+      posts: [],
+    };
+  });
 
   return (
     <div>
       <HeroSection />
       <PlatformCards />
-      <BlogPreview />
+      <BlogPreview posts={posts} />
       <FeatureCarousel />
       <section className="py-16">
         <div className="grid gap-6 lg:grid-cols-2">

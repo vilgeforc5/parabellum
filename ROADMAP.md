@@ -24,9 +24,9 @@
 ### Задачи
 
 - [ ] Создать сервисный слой для Strapi API (`apps/web/src/services/strapi.ts`)
-  - Использовать существующие трансформеры из `packages/contracts/src/strapi/transforms.ts`
-  - `fetchLosses()`, `fetchConflicts()`, `fetchCategories()`, `fetchCountries()`, `fetchAnalytics()`
-  - Пагинация, фильтрация, сортировка через Strapi query params
+    - Использовать существующие трансформеры из `packages/contracts/src/strapi/transforms.ts`
+    - `fetchLosses()`, `fetchConflicts()`, `fetchCategories()`, `fetchCountries()`, `fetchAnalytics()`
+    - Пагинация, фильтрация, сортировка через Strapi query params
 - [ ] Настроить environment variables (`STRAPI_API_URL`, `STRAPI_API_TOKEN`)
 - [ ] Seed Strapi: скрипт для начального наполнения данными (страны, конфликты, категории техники)
 - [ ] Заменить mock-данные на главной странице на реальные из API
@@ -61,17 +61,18 @@
 
 - [ ] Full-text поиск по названию техники, описанию
 - [ ] Фильтры:
-  - Тип техники (category tree)
-  - Страна-оператор
-  - Конфликт
-  - Статус (destroyed / damaged / captured / abandoned)
-  - Верификация (pending / confirmed / disputed)
-  - Диапазон дат
+    - Тип техники (category tree)
+    - Страна-оператор
+    - Конфликт
+    - Статус (destroyed / damaged / captured / abandoned)
+    - Верификация (pending / confirmed / disputed)
+    - Диапазон дат
 - [ ] Результаты: карточки потерь с пагинацией
 - [ ] URL query params для шаринга фильтров
 - [ ] shadcn: `Command` (search), `Popover` (filter dropdowns), `DatePicker`
 
-**Новые shadcn компоненты:** command, popover, calendar, date-picker, pagination, breadcrumb, dialog, sheet (mobile filters)
+**Новые shadcn компоненты:** command, popover, calendar, date-picker, pagination, breadcrumb, dialog, sheet (mobile
+filters)
 
 ---
 
@@ -83,9 +84,9 @@
 
 - [ ] Интеграция картографической библиотеки (Mapbox GL JS или Leaflet + react-leaflet)
 - [ ] Страница карты (`/map`):
-  - Кластерные маркеры (используя `GeographicCluster` из contracts)
-  - Heatmap-слой интенсивности потерь
-  - Popup при клике: превью потери с фото и статусом
+    - Кластерные маркеры (используя `GeographicCluster` из contracts)
+    - Heatmap-слой интенсивности потерь
+    - Popup при клике: превью потери с фото и статусом
 - [ ] Фильтры на карте: конфликт, тип техники, период, статус
 - [ ] Timeline playback: анимация потерь на временной шкале (slider по датам)
 - [ ] Спутниковый / стандартный вид карты
@@ -103,10 +104,10 @@
 ### Задачи
 
 - [ ] Страница аналитики (`/analytics`):
-  - Summary cards (используя существующий `SummaryStats`)
-  - Timeline chart (существующий `TimelineChart`) с выбором периода
-  - Category breakdown (существующий `CategoryBarChart`)
-  - Новые графики: pie chart по статусам, treemap по категориям
+    - Summary cards (используя существующий `SummaryStats`)
+    - Timeline chart (существующий `TimelineChart`) с выбором периода
+    - Category breakdown (существующий `CategoryBarChart`)
+    - Новые графики: pie chart по статусам, treemap по категориям
 - [ ] Сравнение конфликтов: side-by-side графики потерь
 - [ ] Сравнение стран: таблица с сортировкой, bar chart
 - [ ] Тренды: скользящие средние, прогнозные линии
@@ -124,7 +125,8 @@
 
 ### Задачи
 
-- [ ] Новый content type в Strapi: `BlogPost` (title, slug, content (richtext), excerpt, coverImage, author, tags, publishedAt)
+- [ ] Новый content type в Strapi: `BlogPost` (title, slug, content (richtext), excerpt, coverImage, author, tags,
+  publishedAt)
 - [ ] Новый тип в `packages/contracts`: `BlogPost` + Strapi трансформер
 - [ ] Страница списка постов (`/blog`): карточки с превью, пагинация, фильтр по тегам
 - [ ] Страница поста (`/blog/[slug]`): rich content rendering (MDX или Strapi richtext → HTML)
@@ -143,11 +145,11 @@
 ### Задачи
 
 - [ ] Форма отправки (`/submit`):
-  - Категория техники (select из Strapi)
-  - Описание, дата, локация (ввод адреса → геокодирование)
-  - Загрузка фото/видео (evidence)
-  - URL источника
-  - Email отправителя
+    - Категория техники (select из Strapi)
+    - Описание, дата, локация (ввод адреса → геокодирование)
+    - Загрузка фото/видео (evidence)
+    - URL источника
+    - Email отправителя
 - [ ] Валидация: zod schema, размер файлов, форматы
 - [ ] API route для отправки в Strapi (`UserReport` content type уже есть)
 - [ ] Модерация в Strapi admin: review pipeline (new → under_review → accepted/rejected)
@@ -194,17 +196,16 @@
 
 ## Tech Stack Summary
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | Next.js 16, React 19, TypeScript 5.9 |
-| Styling | Tailwind CSS 4, shadcn/ui (New York) |
-| Charts | Recharts |
-| Maps | Mapbox GL JS / react-map-gl |
-| Animations | Framer Motion, Embla Carousel |
-| CMS | Strapi v5 (PostgreSQL) |
-| i18n | next-intl (EN, RU) |
-| Monorepo | Nx 22 |
-| Types | @parabellum/contracts (shared) |
+| Layer      | Technology                             |
+|------------|----------------------------------------|
+| Frontend   | Next.js 16, React 19, TypeScript 5.9   |
+| Styling    | Tailwind CSS 4, shadcn/ui (New York)   |
+| Charts     | Recharts                               |
+| Maps       | Mapbox GL JS / react-map-gl            |
+| Animations | Framer Motion, Embla Carousel          |
+| CMS        | Strapi v5 (PostgreSQL)                 |
+| i18n       | next-intl (EN, RU)                     |
+| Monorepo   | Nx 22                                  |
 | Deployment | Vercel (web) + Railway/Render (Strapi) |
 
 ---

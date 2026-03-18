@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "docker:up": "docker compose -f docker-compose.dev.yaml up -d",
-    "dev": "pnpm nx run-many --target=dev --projects=admin-strapi,web --parallel"
+    "dev": "pnpm nx run-many --target=dev --projects=strapi,web --parallel"
   },
   "private": true,
   "devDependencies": {

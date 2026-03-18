@@ -47,9 +47,5 @@
     "src/**/*.test.ts",
     ".next"
   ],
-  "references": [
-    {
-      "path": "../../packages/contracts"
-    }
-  ]
+  "references": []
 }

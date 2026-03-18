@@ -11,10 +11,9 @@ import {
 } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CHART_STATUS_COLORS, useChartTheme } from '@/lib/chart-theme';
-import type { CategoryBreakdown } from '@parabellum/contracts';
 
 interface CategoryBarChartProps {
-  data: CategoryBreakdown[];
+  data: any[];
   title?: string;
 }
 

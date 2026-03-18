@@ -11,10 +11,9 @@ import {
 } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CHART_STATUS_COLORS, useChartTheme } from '@/lib/chart-theme';
-import type { TimelineDataPoint } from '@parabellum/contracts';
 
 interface TimelineChartProps {
-  data: TimelineDataPoint[];
+  data: any[];
   title?: string;
 }
 
