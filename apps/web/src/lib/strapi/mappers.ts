@@ -2,6 +2,8 @@ import { toAbsoluteStrapiUrl } from './client';
 import type {
   BlogPost,
   BlogPostCategory,
+  ConflictEvent,
+  ConflictEventCategory,
   Country,
   DestroyedBy,
   DestroyedEquipment,
@@ -11,6 +13,7 @@ import type {
   Status,
   StrapiBlogPost,
   StrapiBlogPostCategory,
+  StrapiConflictEvent,
   StrapiCountry,
   StrapiDestroyedBy,
   StrapiDestroyedEquipment,
@@ -22,6 +25,22 @@ import type {
   StrapiWarConflict,
   WarConflict,
 } from './types';
+
+const CONFLICT_EVENT_CATEGORIES: ConflictEventCategory[] = [
+  'battle',
+  'airstrike',
+  'naval',
+  'artillery',
+  'ground',
+  'evacuation',
+  'other',
+];
+
+function asConflictEventCategory(value: unknown): ConflictEventCategory {
+  return CONFLICT_EVENT_CATEGORIES.includes(value as ConflictEventCategory)
+    ? (value as ConflictEventCategory)
+    : 'other';
+}
 
 function asString(value: unknown) {
   return typeof value === 'string' ? value : null;
@@ -144,6 +163,22 @@ export function mapWarConflict(entry: StrapiWarConflict): WarConflict {
     documentId: entry.documentId,
     name: asString(entry.name) ?? '',
     slug: asString(entry.slug) ?? '',
+  };
+}
+
+export function mapConflictEvent(entry: StrapiConflictEvent): ConflictEvent {
+  return {
+    id: Number(entry.id),
+    documentId: entry.documentId,
+    name: asString(entry.name) ?? '',
+    description: asString(entry.description),
+    date: asString(entry.date),
+    latitude: asNumber(entry.latitude) ?? 0,
+    longitude: asNumber(entry.longitude) ?? 0,
+    category: asConflictEventCategory(entry.category),
+    warConflict: entry.warConflict
+      ? mapWarConflict(entry.warConflict as StrapiWarConflict)
+      : null,
   };
 }
 

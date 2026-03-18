@@ -560,6 +560,55 @@ export interface ApiBlogPostBlogPost extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiConflictEventConflictEvent
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'conflict_events';
+  info: {
+    displayName: 'Conflict Event';
+    pluralName: 'conflict-events';
+    singularName: 'conflict-event';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    category: Schema.Attribute.Enumeration<
+      [
+        'battle',
+        'airstrike',
+        'naval',
+        'artillery',
+        'ground',
+        'evacuation',
+        'other',
+      ]
+    > &
+      Schema.Attribute.DefaultTo<'other'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.Date & Schema.Attribute.Required;
+    description: Schema.Attribute.Text;
+    latitude: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::conflict-event.conflict-event'
+    > &
+      Schema.Attribute.Private;
+    longitude: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    warConflict: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::war-conflict.war-conflict'
+    >;
+  };
+}
+
 export interface ApiCountryCountry extends Struct.CollectionTypeSchema {
   collectionName: 'countries';
   info: {
@@ -951,6 +1000,10 @@ export interface ApiWarConflictWarConflict extends Struct.CollectionTypeSchema {
     };
   };
   attributes: {
+    conflictEvents: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::conflict-event.conflict-event'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1502,6 +1555,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::blog-post-category.blog-post-category': ApiBlogPostCategoryBlogPostCategory;
       'api::blog-post.blog-post': ApiBlogPostBlogPost;
+      'api::conflict-event.conflict-event': ApiConflictEventConflictEvent;
       'api::country.country': ApiCountryCountry;
       'api::destroyed-by.destroyed-by': ApiDestroyedByDestroyedBy;
       'api::destroyed-equipment.destroyed-equipment': ApiDestroyedEquipmentDestroyedEquipment;

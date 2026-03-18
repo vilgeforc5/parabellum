@@ -2,10 +2,30 @@ import type { Modules } from '@strapi/types';
 
 export type ReadTimeBucket = 'short' | 'medium' | 'long';
 
+export type ConflictEventCategory =
+  | 'battle'
+  | 'airstrike'
+  | 'naval'
+  | 'artillery'
+  | 'ground'
+  | 'evacuation'
+  | 'other';
+
 export type StrapiBlogPostCategory = Modules.Documents.Result<
   'api::blog-post-category.blog-post-category'
 >;
 export type StrapiCountry = Modules.Documents.Result<'api::country.country'>;
+export interface StrapiConflictEvent {
+  id: number;
+  documentId: string;
+  name?: string | null;
+  description?: string | null;
+  date?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+  category?: string | null;
+  warConflict?: StrapiWarConflict | null;
+}
 export type StrapiDestroyedBy = Modules.Documents.Result<
   'api::destroyed-by.destroyed-by'
 >;
@@ -143,6 +163,18 @@ export interface WarConflict {
   documentId: string;
   name: string;
   slug: string;
+}
+
+export interface ConflictEvent {
+  id: number;
+  documentId: string;
+  name: string;
+  description: string | null;
+  date: string | null;
+  latitude: number;
+  longitude: number;
+  category: ConflictEventCategory;
+  warConflict: WarConflict | null;
 }
 
 export interface HomeHeroStats {

@@ -5,6 +5,7 @@ import { strapiClient } from './client';
 import {
   mapBlogPost,
   mapBlogPostCategory,
+  mapConflictEvent,
   mapDestroyedEquipment,
   mapWarConflict,
 } from './mappers';
@@ -12,6 +13,7 @@ import type {
   BlogPost,
   BlogPostCategory,
   ConflictAnalyticsSectionData,
+  ConflictEvent,
   DestroyedEquipment,
   HomeCategoryStats,
   HomeHeroStats,
@@ -21,6 +23,7 @@ import type {
   ReadTimeBucket,
   StrapiBlogPost,
   StrapiBlogPostCategory,
+  StrapiConflictEvent,
   StrapiDestroyedEquipment,
   StrapiWarConflict,
   WarConflict,
@@ -547,11 +550,132 @@ export async function getHeroStats(
   return getCachedHeroStats(locale);
 }
 
+const MAP_EQUIPMENT_POPULATE = {
+  country: true,
+  destroyedBy: true,
+  equipment: {
+    populate: {
+      originCountry: true,
+      type: true,
+    },
+  },
+  region: true,
+  status: true,
+  warConflict: true,
+} as const;
+
+export interface MapDataOptions {
+  conflictSlug: string;
+  equipmentTypeSlugs?: string[];
+  countrySlugs?: string[];
+  statusSlugs?: string[];
+}
+
+export interface MapData {
+  equipment: DestroyedEquipment[];
+  events: ConflictEvent[];
+  availableEquipmentTypes: Array<{ name: string; slug: string }>;
+  availableCountries: Array<{ name: string; slug: string; code: string }>;
+  availableStatuses: Array<{ name: string; slug: string }>;
+}
+
+export async function getWarConflicts(): Promise<WarConflict[]> {
+  const conflicts = await findAllCollection<StrapiWarConflict>('war-conflicts', {
+    sort: ['startDate:desc', 'name:asc'],
+  });
+  return conflicts.map(mapWarConflict);
+}
+
+export async function getMapData(options: MapDataOptions): Promise<MapData> {
+  const { conflictSlug, equipmentTypeSlugs, countrySlugs, statusSlugs } =
+    options;
+
+  const equipmentFilters: Record<string, unknown> = {
+    warConflict: { slug: { $eq: conflictSlug } },
+    latitude: { $notNull: true },
+    longitude: { $notNull: true },
+  };
+
+  if (equipmentTypeSlugs?.length) {
+    equipmentFilters.equipment = {
+      type: { slug: { $in: equipmentTypeSlugs } },
+    };
+  }
+
+  if (countrySlugs?.length) {
+    equipmentFilters.country = { slug: { $in: countrySlugs } };
+  }
+
+  if (statusSlugs?.length) {
+    equipmentFilters.status = { slug: { $in: statusSlugs } };
+  }
+
+  const [allEquipment, events] = await Promise.all([
+    findAllCollection<StrapiDestroyedEquipment>('destroyed-equipments', {
+      populate: MAP_EQUIPMENT_POPULATE,
+      filters: equipmentFilters,
+      sort: ['reportedAt:desc'],
+    }).then((docs) => docs.map(mapDestroyedEquipment)),
+    findAllCollection<StrapiConflictEvent>('conflict-events', {
+      populate: { warConflict: true },
+      filters: {
+        warConflict: { slug: { $eq: conflictSlug } },
+      },
+      sort: ['date:desc'],
+    }).then((docs) => docs.map(mapConflictEvent)),
+  ]);
+
+  // Derive available filter options from returned equipment
+  const typeMap = new Map<string, { name: string; slug: string }>();
+  const countryMap = new Map<
+    string,
+    { name: string; slug: string; code: string }
+  >();
+  const statusMap = new Map<string, { name: string; slug: string }>();
+
+  for (const eq of allEquipment) {
+    if (eq.equipment?.type) {
+      typeMap.set(eq.equipment.type.slug, {
+        name: eq.equipment.type.name,
+        slug: eq.equipment.type.slug,
+      });
+    }
+    if (eq.country) {
+      countryMap.set(eq.country.slug, {
+        name: eq.country.name,
+        slug: eq.country.slug,
+        code: eq.country.code,
+      });
+    }
+    if (eq.status) {
+      statusMap.set(eq.status.slug, {
+        name: eq.status.name,
+        slug: eq.status.slug,
+      });
+    }
+  }
+
+  return {
+    equipment: allEquipment,
+    events,
+    availableEquipmentTypes: Array.from(typeMap.values()).sort((a, b) =>
+      a.name.localeCompare(b.name),
+    ),
+    availableCountries: Array.from(countryMap.values()).sort((a, b) =>
+      a.name.localeCompare(b.name),
+    ),
+    availableStatuses: Array.from(statusMap.values()).sort((a, b) =>
+      a.name.localeCompare(b.name),
+    ),
+  };
+}
+
 export type {
   BlogPost,
   BlogPostCategory,
   BlogPostContent,
   ConflictAnalyticsSectionData,
+  ConflictEvent,
   DestroyedEquipment,
   HomeCategoryStats,
   HomeHeroStats,

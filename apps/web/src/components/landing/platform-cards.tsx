@@ -96,14 +96,16 @@ export function PlatformCards() {
               <div
                 className={`absolute inset-0 bg-gradient-to-br ${color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
               />
-              <CardContent className="relative p-6">
-                <Icon className={`h-8 w-8 ${iconColor} mb-4`} />
-                <h3 className="font-semibold text-lg mb-2">
-                  {t(`${key}.title`)}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {t(`${key}.description`)}
-                </p>
+              <CardContent className="relative p-6 flex flex-col h-full">
+                <div className="flex-1">
+                  <Icon className={`h-8 w-8 ${iconColor} mb-4`} />
+                  <h3 className="font-semibold text-lg mb-2">
+                    {t(`${key}.title`)}
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {t(`${key}.description`)}
+                  </p>
+                </div>
                 <div className="mt-4 text-xs font-medium text-muted-foreground/60 uppercase tracking-wider">
                   {t(`${key}.tag`)}
                 </div>

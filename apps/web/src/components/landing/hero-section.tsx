@@ -24,11 +24,7 @@ function formatStatValue(value: number | null, locale: string) {
   return value.toLocaleString(locale);
 }
 
-function FloatingStats({
-  stats,
-}: {
-  stats: HomeHeroStats | null;
-}) {
+function FloatingStats({ stats }: { stats: HomeHeroStats | null }) {
   const t = useTranslations('HomePage.heroStats');
   const locale = useLocale();
   const cards = [
@@ -63,11 +59,7 @@ function FloatingStats({
   );
 }
 
-export function HeroSection({
-  stats,
-}: {
-  stats: HomeHeroStats | null;
-}) {
+export function HeroSection({ stats }: { stats: HomeHeroStats | null }) {
   const t = useTranslations('HomePage');
 
   return (
@@ -80,7 +72,7 @@ export function HeroSection({
           <span>{t('heroBadge')}</span>
         </div>
 
-        <h1 className="text-3xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-6xl">
+        <h1 className="text-3xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-6xl max-md:text-center">
           {t('heroTitle')}
           <span className="block bg-gradient-to-r from-chart-1 via-chart-1 to-chart-1/70 bg-clip-text text-transparent">
             {t('heroTitleAccent')}
@@ -91,14 +83,14 @@ export function HeroSection({
           {t('heroDescription')}
         </p>
 
-        <div className="mt-8 flex flex-wrap gap-4">
+        <div className="mt-8 flex gap-4">
           <Button size="lg" asChild className="gap-2">
             <Link href="/analytics">
               {t('heroCTA')}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </Button>
-          <Button size="lg" variant="outline" asChild>
+          <Button size="lg" variant="secondary" asChild>
             <Link href="/analytics/map">{t('heroMapCTA')}</Link>
           </Button>
         </div>

@@ -9,7 +9,6 @@ import {
 } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import NextTopLoader from 'nextjs-toploader';
-import { AppShell } from '@/components/app-shell';
 import { ThemeProvider } from '@/components/theme-provider';
 import { routing } from '@/i18n/routing';
 import { cn } from '@/lib/utils';
@@ -76,7 +75,7 @@ export default async function LocaleLayout({
         >
           <div className="relative z-10 flex min-h-screen flex-col">
             <NextIntlClientProvider messages={messages}>
-              <AppShell>{children}</AppShell>
+              <>{children}</>
             </NextIntlClientProvider>
           </div>
         </ThemeProvider>

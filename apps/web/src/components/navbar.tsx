@@ -31,7 +31,7 @@ import { cn } from '@/lib/utils';
 const navLinks = [
   { href: '/', label: 'home', icon: HomeIcon },
   { href: '/analytics', label: 'analytics', icon: BarChart3 },
-  { href: '/analytics/map', label: 'map', icon: Map },
+  { href: '/map', label: 'map', icon: Map },
   { href: '/blog', label: 'blog', icon: FileText },
   { href: '/about-us', label: 'about', icon: Info },
 ];

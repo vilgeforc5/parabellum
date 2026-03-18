@@ -50,6 +50,12 @@
       "relation": "oneToMany",
       "target": "api::destroyed-equipment.destroyed-equipment",
       "mappedBy": "warConflict"
+    },
+    "conflictEvents": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::conflict-event.conflict-event",
+      "mappedBy": "warConflict"
     }
   }
 }

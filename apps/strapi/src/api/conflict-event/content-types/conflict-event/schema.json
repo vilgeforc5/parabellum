@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "conflict_events",
+  "info": {
+    "singularName": "conflict-event",
+    "pluralName": "conflict-events",
+    "displayName": "Conflict Event"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "date": {
+      "type": "date",
+      "required": true
+    },
+    "latitude": {
+      "type": "decimal",
+      "required": true
+    },
+    "longitude": {
+      "type": "decimal",
+      "required": true
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "battle",
+        "airstrike",
+        "naval",
+        "artillery",
+        "ground",
+        "evacuation",
+        "other"
+      ],
+      "default": "other"
+    },
+    "warConflict": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::war-conflict.war-conflict",
+      "inversedBy": "conflictEvents"
+    }
+  }
+}
