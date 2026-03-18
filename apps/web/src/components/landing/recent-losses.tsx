@@ -50,6 +50,8 @@ export function RecentLosses({ losses }: RecentLossesProps) {
   const t = useTranslations('HomePage');
   const locale = useLocale();
 
+  if (losses.length === 0) return null;
+
   return (
     <section className="py-16">
       <motion.div
@@ -117,9 +119,10 @@ export function RecentLosses({ losses }: RecentLossesProps) {
                 ) : null}
                 <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
                   <span className="inline-block w-4 h-3 rounded-sm bg-muted" />
-                  {[loss.country?.code ?? 'NA', loss.region?.name ?? 'Unknown region'].join(
-                    ' / '
-                  )}
+                  {[
+                    loss.country?.code ?? 'NA',
+                    loss.region?.name ?? 'Unknown region',
+                  ].join(' / ')}
                 </div>
               </CardContent>
             </Card>
