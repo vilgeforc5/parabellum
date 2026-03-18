@@ -9,7 +9,11 @@
     "analytics": "Analytics",
     "map": "Map",
     "blog": "Blog",
-    "about": "About"
+    "about": "About",
+    "menu": "Menu",
+    "menuDescription": "Quick access to the main sections of the platform.",
+    "preferences": "Preferences",
+    "language": "Language"
   },
   "LocaleSwitcher": {
     "label": "Change language",

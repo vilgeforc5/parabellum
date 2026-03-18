@@ -46,7 +46,7 @@ export function HeroSection() {
     <section className="relative -mx-4 -mt-6 flex min-h-[85vh] items-center overflow-hidden px-4">
       <GridBackground />
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl pb-6">
+      <div className="relative z-10 mx-auto w-full max-w-6xl py-10">
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-background/70 px-4 py-1.5 text-sm text-chart-1 shadow-sm backdrop-blur-md">
           <Crosshair className="h-3.5 w-3.5" />
           <span>{t('heroBadge')}</span>

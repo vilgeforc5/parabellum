@@ -9,7 +9,11 @@
     "analytics": "Аналитика",
     "map": "Карта",
     "blog": "Блог",
-    "about": "О нас"
+    "about": "О нас",
+    "menu": "Меню",
+    "menuDescription": "Быстрый доступ к основным разделам платформы.",
+    "preferences": "Настройки",
+    "language": "Язык"
   },
   "LocaleSwitcher": {
     "label": "Сменить язык",

@@ -79,7 +79,7 @@ export default withLocale(async function AboutUsPage() {
   const t = await getTranslations('AboutPage');
 
   return (
-    <section className="mx-auto flex w-full max-w-4xl flex-col gap-8 py-10">
+    <section className="mx-auto flex w-full max-w-6xl flex-col gap-8 py-10">
       <div className="space-y-4">
         <p className="text-sm font-medium uppercase tracking-[0.2em] text-chart-1">
           {t('eyebrow')}
