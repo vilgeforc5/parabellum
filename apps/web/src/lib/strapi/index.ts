@@ -434,6 +434,46 @@ const getCachedConflictAnalyticsSectionData = unstable_cache(
   },
 );
 
+const getCachedBlogPostsPreview = unstable_cache(
+  async (locale?: AppLocale) => {
+    const response = await findCollection<StrapiBlogPost>('blog-posts', {
+      ...(locale ? { locale } : {}),
+      populate: BLOG_POST_POPULATE,
+      sort: ['publishedAt:desc'],
+      pagination: { page: 1, pageSize: 3, withCount: true },
+      status: 'published',
+    });
+    return {
+      posts: response.data.map(mapBlogPost),
+      total: response.meta.pagination?.total ?? 0,
+    };
+  },
+  ['blog-posts-preview'],
+  { revalidate: HOME_PAGE_ANALYTICS_REVALIDATE_SECONDS },
+);
+
+export async function getBlogPostsPreview(
+  locale?: AppLocale,
+): Promise<{ posts: BlogPost[]; total: number }> {
+  return getCachedBlogPostsPreview(locale);
+}
+
+const getCachedRecentDestroyedEquipment = unstable_cache(
+  async (pageSize: number) => {
+    const response = await findCollection<StrapiDestroyedEquipment>(
+      'destroyed-equipments',
+      {
+        populate: DESTROYED_EQUIPMENT_POPULATE,
+        sort: ['reportedAt:desc', 'sourceRecordId:desc'],
+        pagination: { page: 1, pageSize },
+      },
+    );
+    return response.data.map(mapDestroyedEquipment);
+  },
+  ['recent-destroyed-equipment'],
+  { revalidate: HOME_PAGE_ANALYTICS_REVALIDATE_SECONDS },
+);
+
 export async function getBlogPosts(options?: {
   locale?: AppLocale;
   page?: number;
@@ -511,20 +551,7 @@ export async function getRecentDestroyedEquipment(options?: {
   pageSize?: number;
 }): Promise<DestroyedEquipment[]> {
   const { pageSize = 6 } = options ?? {};
-
-  const response = await findCollection<StrapiDestroyedEquipment>(
-    'destroyed-equipments',
-    {
-      populate: DESTROYED_EQUIPMENT_POPULATE,
-      sort: ['reportedAt:desc', 'sourceRecordId:desc'],
-      pagination: {
-        page: 1,
-        pageSize,
-      },
-    },
-  );
-
-  return response.data.map(mapDestroyedEquipment);
+  return getCachedRecentDestroyedEquipment(pageSize);
 }
 
 export async function getHomePageAnalytics(

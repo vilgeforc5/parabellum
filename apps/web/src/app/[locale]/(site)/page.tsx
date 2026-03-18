@@ -1,6 +1,7 @@
+import { Suspense } from 'react';
 import { withLocale } from '@/lib/with-locale';
 import {
-  getBlogPosts,
+  getBlogPostsPreview,
   getHeroStats,
   getRecentDestroyedEquipment,
 } from '@/lib/strapi';
@@ -23,24 +24,10 @@ export default withLocale(async function HomePage({
     conflict?: string | string[];
   }>;
 }) {
-  const resolvedSearchParams = await searchParams;
-  const selectedConflictSlug = Array.isArray(resolvedSearchParams?.conflict)
-    ? resolvedSearchParams?.conflict[0]
-    : resolvedSearchParams?.conflict;
-
   const [heroStats, blogPostsResult, losses] = await Promise.all([
     getHeroStats(locale as AppLocale).catch(() => null),
-    getBlogPosts({
-      locale: locale as AppLocale,
-      pageSize: 3,
-    }).catch(() => {
-      return {
-        posts: [],
-      };
-    }),
-    getRecentDestroyedEquipment({
-      pageSize: 6,
-    }).catch(() => []),
+    getBlogPostsPreview(locale as AppLocale).catch(() => ({ posts: [] })),
+    getRecentDestroyedEquipment({ pageSize: 6 }).catch(() => []),
   ]);
 
   return (
@@ -49,7 +36,9 @@ export default withLocale(async function HomePage({
       <PlatformCards />
       <BlogPreview posts={blogPostsResult.posts} />
       <FeatureCarousel />
-      <ConflictAnalyticsSection selectedConflictSlug={selectedConflictSlug} />
+      <Suspense fallback={null}>
+        <ConflictAnalyticsSection searchParams={searchParams} />
+      </Suspense>
       <RecentLosses losses={losses} />
     </div>
   );

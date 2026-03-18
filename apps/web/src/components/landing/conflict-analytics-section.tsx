@@ -5,12 +5,16 @@ import { ConflictAnalyticsSelect } from '@/components/landing/conflict-analytics
 import { getConflictAnalyticsSectionData } from '@/lib/strapi';
 
 interface ConflictAnalyticsSectionProps {
-  selectedConflictSlug?: string;
+  searchParams?: Promise<{ conflict?: string | string[] }>;
 }
 
 export async function ConflictAnalyticsSection({
-  selectedConflictSlug,
+  searchParams,
 }: ConflictAnalyticsSectionProps) {
+  const params = await searchParams;
+  const selectedConflictSlug = Array.isArray(params?.conflict)
+    ? params.conflict[0]
+    : params?.conflict;
   const [charts, conflictData] = await Promise.all([
     getTranslations('Charts'),
     getConflictAnalyticsSectionData(selectedConflictSlug).catch(() => ({
