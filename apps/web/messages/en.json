@@ -112,11 +112,6 @@
     "sectionDescription": "In-depth research and analytical reports from our team",
     "viewAll": "View All Posts",
     "readTime": "{minutes} min read",
-    "tags": {
-      "analysis": "Analysis",
-      "osint": "OSINT",
-      "trends": "Trends"
-    },
     "post1": {
       "title": "Armored Vehicle Attrition Patterns in Modern Conflicts",
       "excerpt": "A deep dive into how modern anti-tank systems have shifted the balance of armored warfare, with data from 14,000+ verified losses."

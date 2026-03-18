@@ -67,7 +67,7 @@ export default async function BlogPage({ params, searchParams }: BlogPageProps) 
         </div>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post: any) => (
+          {posts.map((post) => (
             <Link key={post.id} href={`/blog/${post.slug}`}>
               <Card className="group h-full flex flex-col border-border/50 bg-card/50 backdrop-blur-sm transition-all hover:border-primary cursor-pointer">
                 <div className="relative h-48 overflow-hidden rounded-t-xl bg-gradient-to-br from-secondary to-background">

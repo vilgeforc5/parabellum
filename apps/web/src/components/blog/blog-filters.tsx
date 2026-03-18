@@ -1,16 +1,10 @@
 'use client';
 
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import { X } from 'lucide-react';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import type { BlogPostCategory, ReadTimeBucket } from '@/lib/strapi';
@@ -20,6 +14,8 @@ interface BlogFiltersProps {
   activeCategory: string | undefined;
   activeReadTime: ReadTimeBucket | undefined;
 }
+
+const ALL_CATEGORIES_VALUE = '__all_categories__';
 
 const READ_TIME_BUCKETS: { value: ReadTimeBucket; labelKey: string }[] = [
   { value: 'short', labelKey: 'readTimeShort' },
@@ -46,9 +42,10 @@ export function BlogFilters({
         params.delete(key);
       }
       params.delete('page');
-      router.push(`${pathname}?${params.toString()}`);
+      const nextUrl = params.size > 0 ? `${pathname}?${params.toString()}` : pathname;
+      router.push(nextUrl);
     },
-    [router, pathname, searchParams]
+    [router, pathname, searchParams],
   );
 
   const hasFilters = !!activeCategory || !!activeReadTime;
@@ -56,14 +53,21 @@ export function BlogFilters({
   return (
     <div className="flex flex-wrap items-center gap-3">
       <Select
-        value={activeCategory ?? ''}
-        onValueChange={(v) => updateParam('category', v || null)}
+        value={activeCategory}
+        onValueChange={(value) =>
+          updateParam(
+            'category',
+            value === ALL_CATEGORIES_VALUE ? null : value,
+          )
+        }
       >
         <SelectTrigger className="w-48">
           <SelectValue placeholder={t('allCategories')} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="">{t('allCategories')}</SelectItem>
+          <SelectItem value={ALL_CATEGORIES_VALUE}>
+            {t('allCategories')}
+          </SelectItem>
           {categories.map((cat) => (
             <SelectItem key={cat.id} value={cat.slug}>
               {cat.name}

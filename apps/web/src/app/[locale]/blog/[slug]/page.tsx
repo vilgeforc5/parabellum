@@ -51,11 +51,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               {post.category.name}
             </Badge>
           )}
-          {post.tags.map((tag) => (
-            <Badge key={tag.id} variant="secondary">
-              {tag.name}
-            </Badge>
-          ))}
         </div>
 
         <h1 className="text-3xl font-bold tracking-tight md:text-4xl">

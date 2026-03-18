@@ -173,6 +173,7 @@ const mockCategories = [
 export default withLocale(async function HomePage() {
   const charts = await getTranslations('Charts');
   const { posts } = await getBlogPosts({ pageSize: 3 }).catch((error) => {
+    console.log(error);
     return {
       posts: [],
     };
