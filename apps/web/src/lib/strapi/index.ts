@@ -102,12 +102,25 @@ async function findCollection<TDocument>(
   resource: string,
   query?: API.BaseQueryParams,
 ): Promise<CollectionResponse<TDocument>> {
+  const start = performance.now();
+  const page = query?.pagination && 'page' in query.pagination ? query.pagination.page : 1;
+  const pageSize = query?.pagination && 'pageSize' in query.pagination ? query.pagination.pageSize : '?';
+  const label = `[strapi] ${resource} p${page}/${pageSize}`;
+
   try {
-    return (await strapiClient
+    const result = (await strapiClient
       .collection(resource)
       .find(query)) as CollectionResponse<TDocument>;
+
+    const ms = (performance.now() - start).toFixed(0);
+    const count = result.data?.length ?? 0;
+    const total = result.meta?.pagination?.total;
+    console.log(`${label} → ${count} records${total != null ? ` (${total} total)` : ''} in ${ms}ms`);
+
+    return result;
   } catch (error) {
-    console.error(`[strapi] findCollection(${resource}) failed:`, error);
+    const ms = (performance.now() - start).toFixed(0);
+    console.error(`${label} FAILED in ${ms}ms:`, error);
     throw error;
   }
 }
